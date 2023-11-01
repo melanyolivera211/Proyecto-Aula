@@ -1,4 +1,4 @@
-package proyectoaula;
+package proyectoaula.ventanas;
 public class Ventana extends javax.swing.JFrame {
     public Ventana() {
         initComponents();
@@ -39,7 +39,7 @@ public class Ventana extends javax.swing.JFrame {
                 botonGastosActionPerformed(evt);
             }
         });
-        jPanel1.add(botonGastos, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 129, 86, 42));
+        jPanel1.add(botonGastos, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 86, 42));
 
         botonElectrodomestico.setFont(new java.awt.Font("Microsoft YaHei", 0, 14)); // NOI18N
         botonElectrodomestico.setText("Electrodomésticos");
@@ -48,11 +48,11 @@ public class Ventana extends javax.swing.JFrame {
                 botonElectrodomesticoActionPerformed(evt);
             }
         });
-        jPanel1.add(botonElectrodomestico, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 54, -1, 42));
+        jPanel1.add(botonElectrodomestico, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, 42));
 
         jLabel1.setFont(new java.awt.Font("MS Gothic", 0, 18)); // NOI18N
         jLabel1.setText("Consultar/Registrar");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
 
         RegresarInicio.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         RegresarInicio.setText("Regresar");
@@ -61,17 +61,17 @@ public class Ventana extends javax.swing.JFrame {
                 RegresarInicioActionPerformed(evt);
             }
         });
-        jPanel1.add(RegresarInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 190, -1, -1));
+        jPanel1.add(RegresarInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 210, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
         );
 
         pack();
