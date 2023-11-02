@@ -5,19 +5,40 @@ import proyectoaula.objects.Electrodomesticos;
 import java.io.File;
 import java.util.Formatter;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 public class VentanaElectrodomestico extends javax.swing.JFrame {
     String elec = File.separator;
     String crearblock = System.getProperty("user.dir")+elec+"DatosTXT"+elec;
+    private DefaultTableModel modelo;
     
     public VentanaElectrodomestico() {
         initComponents();
+        modelo = new DefaultTableModel();
+        modelo.addColumn("Electrodomestico");
+        modelo.addColumn("Nro.Serie");
+        modelo.addColumn("Marca");
+        this.tablaelectrodomestico.setModel(modelo);
+        
+    }
+    private void agregar(){
+    String electrodomestico = electrodomesticoTXT.getText();
+    String nroserie = nroserieTXT.getText();
+    String marca = marcaTXT.getText();
+    
+    String[] agre = new String[3];
+    
+    agre[0] = electrodomestico;
+    agre[1] = nroserie;
+    agre[2] = marca;
+    modelo.addRow(agre);
+    
     }
     private void crear(){
-    String archivo = nroserie.getText()+".txt";
+    String archivo = nroserieTXT.getText()+".txt";
     File crearubi = new File(crearblock);
     File creararchivo = new File(crearblock + archivo);
     
-    if(nroserie.getText().equals("")){
+    if(nroserieTXT.getText().equals("")){
         JOptionPane.showMessageDialog(rootPane, "este electrodomestico no existe");
     
     }else{
@@ -27,7 +48,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
             }else{
             crearubi.mkdirs();
             Formatter crearFor = new Formatter(crearblock + creararchivo);
-            crearFor.format("%s\r\n%s\r\n%s\r\n","Electrodomestico" + electrodomestico.getText(),"Nro. Serie"+nroserie.getText(),"Marca"+marca.getText());
+            crearFor.format("%s\r\n%s\r\n%s\r\n","Electrodomestico" + electrodomesticoTXT.getText(),"Nro. Serie"+nroserieTXT.getText(),"Marca"+marcaTXT.getText());
             crearFor.close();
             JOptionPane.showMessageDialog(rootPane, "el electrodomestico a sido guardado");
             }
@@ -49,13 +70,13 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        nroserie = new javax.swing.JTextField();
+        nroserieTXT = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        marca = new javax.swing.JTextField();
-        electrodomestico = new javax.swing.JTextField();
+        marcaTXT = new javax.swing.JTextField();
+        electrodomesticoTXT = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaelectrodomestico = new javax.swing.JTable();
         Guardar = new javax.swing.JButton();
         Cancelar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
@@ -88,7 +109,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel2.setText("Electrodomestico:");
 
-        nroserie.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        nroserieTXT.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel1.setText("Nro. Serie:");
@@ -96,11 +117,11 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel3.setText("Marca:");
 
-        marca.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        marcaTXT.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
-        electrodomestico.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        electrodomesticoTXT.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaelectrodomestico.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -111,7 +132,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
                 "Electrodomestico", "Nro. Serie", "Marca"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaelectrodomestico);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -127,9 +148,9 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nroserie, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(marca, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(electrodomestico, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(nroserieTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(marcaTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(electrodomesticoTXT, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(60, 60, 60))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -141,15 +162,15 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(electrodomestico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(electrodomesticoTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(nroserie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nroserieTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(marca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(marcaTXT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(26, Short.MAX_VALUE))
@@ -205,17 +226,18 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
     }//GEN-LAST:event_RegresarVentanaActionPerformed
 
     private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
+        agregar();
         crear();
         
-        electrodomestico.setText("");
-        nroserie.setText("");
-        marca.setText("");
+        electrodomesticoTXT.setText("");
+        nroserieTXT.setText("");
+        marcaTXT.setText("");
     }//GEN-LAST:event_GuardarActionPerformed
 
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
-        electrodomestico.setText("");
-        nroserie.setText("");
-        marca.setText("");
+        electrodomesticoTXT.setText("");
+        nroserieTXT.setText("");
+        marcaTXT.setText("");
     }//GEN-LAST:event_CancelarActionPerformed
 
     public static void main(String args[]) {
@@ -231,7 +253,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
     private javax.swing.JButton Guardar;
     private javax.swing.JPanel PanelElectrodomestico;
     private javax.swing.JButton RegresarVentana;
-    private javax.swing.JTextField electrodomestico;
+    private javax.swing.JTextField electrodomesticoTXT;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -240,8 +262,8 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField marca;
-    private javax.swing.JTextField nroserie;
+    private javax.swing.JTextField marcaTXT;
+    private javax.swing.JTextField nroserieTXT;
+    private javax.swing.JTable tablaelectrodomestico;
     // End of variables declaration//GEN-END:variables
 }

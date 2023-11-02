@@ -185,7 +185,6 @@ public class RegistrarUsuario extends javax.swing.JFrame {
     if (txtNombre.getText()==null || txtApellido.getText()==null || txtCedula.getText()==null || txtContraseña.getText()==null) {
         JOptionPane.showMessageDialog(null, "Falta ingresar datos del usuario", "Error", JOptionPane.ERROR_MESSAGE);
     }else{
-        int k = 0;
         String nombre = txtNombre.getText();
         String apellido = txtApellido.getText();  
         String cedula = txtCedula.getText(); 
