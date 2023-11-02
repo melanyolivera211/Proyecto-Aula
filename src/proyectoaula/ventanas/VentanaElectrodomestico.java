@@ -1,15 +1,11 @@
 package proyectoaula.ventanas;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import proyectoaula.objects.Electrodomesticos;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
-import java.util.Formatter;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
 public class VentanaElectrodomestico extends javax.swing.JFrame {
 
     String elec = File.separator;

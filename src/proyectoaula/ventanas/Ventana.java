@@ -90,7 +90,7 @@ public class Ventana extends javax.swing.JFrame {
     }//GEN-LAST:event_botonElectrodomesticoActionPerformed
 
     private void RegresarInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarInicioActionPerformed
-        VentanaInicio abc = new VentanaInicio();
+        VentanaLogin abc = new VentanaLogin();
         abc.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_RegresarInicioActionPerformed
