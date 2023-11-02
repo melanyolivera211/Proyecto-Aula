@@ -1,16 +1,22 @@
 package proyectoaula.ventanas;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import proyectoaula.objects.Electrodomesticos;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.Writer;
 import java.util.Formatter;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 public class VentanaElectrodomestico extends javax.swing.JFrame {
+
     String elec = File.separator;
-    String crearblock = System.getProperty("user.dir")+elec+"DatosTXT"+elec;
+    String crearblock = System.getProperty("user.dir") + elec + "DatosTXT" + elec;
     private DefaultTableModel modelo;
-    
+    int c = 0;
+
     public VentanaElectrodomestico() {
         initComponents();
         modelo = new DefaultTableModel();
@@ -18,48 +24,55 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
         modelo.addColumn("Nro.Serie");
         modelo.addColumn("Marca");
         this.tablaelectrodomestico.setModel(modelo);
-        
+
     }
-    private void agregar(){
-    String electrodomestico = electrodomesticoTXT.getText();
-    String nroserie = nroserieTXT.getText();
-    String marca = marcaTXT.getText();
-    
-    String[] agre = new String[3];
-    
-    agre[0] = electrodomestico;
-    agre[1] = nroserie;
-    agre[2] = marca;
-    modelo.addRow(agre);
-    
+
+    private void agregar() {
+        String electrodomestico = electrodomesticoTXT.getText();
+        String nroserie = nroserieTXT.getText();
+        String marca = marcaTXT.getText();
+
+        String[] agre = new String[3];
+
+        agre[0] = electrodomestico;
+        agre[1] = nroserie;
+        agre[2] = marca;
+        modelo.addRow(agre);
+
     }
-    private void crear(){
-    String archivo = nroserieTXT.getText()+".txt";
-    File crearubi = new File(crearblock);
-    File creararchivo = new File(crearblock + archivo);
-    
-    if(nroserieTXT.getText().equals("")){
-        JOptionPane.showMessageDialog(rootPane, "este electrodomestico no existe");
-    
-    }else{
-        try{
-            if(creararchivo.exists()){
-            JOptionPane.showMessageDialog(rootPane, "este electrodomestico ya esta registrado");
-            }else{
-            crearubi.mkdirs();
-            Formatter crearFor = new Formatter(crearblock + creararchivo);
-            crearFor.format("%s\r\n%s\r\n%s\r\n","Electrodomestico" + electrodomesticoTXT.getText(),"Nro. Serie"+nroserieTXT.getText(),"Marca"+marcaTXT.getText());
-            crearFor.close();
-            JOptionPane.showMessageDialog(rootPane, "el electrodomestico a sido guardado");
+
+    private void crear() {
+        String archivo = nroserieTXT.getText() + ".txt";
+        File crearubi = new File(crearblock);
+        File creararchivo = new File(crearblock + archivo);
+
+        if (nroserieTXT.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "este electrodomestico no existe");
+
+        } else {
+            try {
+                if (creararchivo.exists()) {
+                    JOptionPane.showMessageDialog(rootPane, "este electrodomestico ya esta registrado");
+                } else {
+                    crearubi.mkdirs();
+                    creararchivo.createNewFile();
+                    Writer escritorDeArchivo = new FileWriter(creararchivo.getAbsolutePath());
+                    String datosElectrodomestico = "Electrodomestico: "+  electrodomesticoTXT.getText()+"\n";
+                    datosElectrodomestico += "Nro. Serie: " + nroserieTXT.getText()+"\n";
+                    datosElectrodomestico +=  "Marca: " + marcaTXT.getText();
+                    escritorDeArchivo.write(datosElectrodomestico);
+                    escritorDeArchivo.flush();
+                    escritorDeArchivo.close();
+                    JOptionPane.showMessageDialog(rootPane, "el electrodomestico a sido guardado");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(rootPane, "no se a podido ingresar el electrodomestico");
+
             }
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(rootPane, "no se a podido ingresar el electrodomestico");
-             
         }
-    
+
     }
-    
-    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -228,7 +241,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
     private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
         agregar();
         crear();
-        
+
         electrodomesticoTXT.setText("");
         nroserieTXT.setText("");
         marcaTXT.setText("");
@@ -241,7 +254,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
     }//GEN-LAST:event_CancelarActionPerformed
 
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable(){
+        java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new VentanaElectrodomestico().setVisible(true);
             }
