@@ -15,6 +15,7 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
+    //hola
 
     public void limpiarCampos() {
         txtNombre.setText("");
