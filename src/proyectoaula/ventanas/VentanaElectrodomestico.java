@@ -14,6 +14,8 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
     String crearblock = System.getProperty("user.dir") + elec + "DatosTXT" + elec;
     private DefaultTableModel modelo;
     int c = 0;
+    //la puta madre malparido
+    
 
     public VentanaElectrodomestico() {
         initComponents();
