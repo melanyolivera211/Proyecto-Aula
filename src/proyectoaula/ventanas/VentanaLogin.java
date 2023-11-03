@@ -1,11 +1,16 @@
 package proyectoaula.ventanas;
+
 import javax.swing.JOptionPane;
 import proyectoaula.objects.Usuario;
+
 public class VentanaLogin extends javax.swing.JFrame {
+
     Usuario usuario = new Usuario();
+
     public VentanaLogin() {
         initComponents();
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -168,29 +173,29 @@ public class VentanaLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEntrarActionPerformed
-    
-    String cedula; 
-    String contrasena;
-    contrasena = txtCedula.getText();
-    cedula = txtContraseña.getText();
-  if(contrasena==null || cedula==null){
-        JOptionPane.showMessageDialog(null, "Falta ingresar datos", "Error", JOptionPane.ERROR_MESSAGE);
-    }else if(txtCedula.getText().equals(usuario.contraseña) && txtContraseña.getText().equals(usuario.nroDocumento)) {
-    JOptionPane.showMessageDialog(this, "Hola, usuario");
-    }
+
+        String cedula;
+        String contrasena;
+        contrasena = txtCedula.getText();
+        cedula = txtContraseña.getText();
+        if (contrasena == null || cedula == null) {
+            JOptionPane.showMessageDialog(null, "Falta ingresar datos", "Error", JOptionPane.ERROR_MESSAGE);
+        } else if (txtCedula.getText().equals(usuario.contraseña) && txtContraseña.getText().equals(usuario.nroDocumento)) {
+            JOptionPane.showMessageDialog(this, "Hola, usuario");
+        }
     }//GEN-LAST:event_botonEntrarActionPerformed
 
     private void RegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarseActionPerformed
-        VentanaRegistroUsuario ventana = new VentanaRegistroUsuario(this,true);
+        VentanaRegistroUsuario ventana = new VentanaRegistroUsuario(this, true);
         ventana.setLocationRelativeTo(this);
-        
+
         ventana.setVisible(true);
     }//GEN-LAST:event_RegistrarseActionPerformed
 
     public static void main(String[] args) {
         VentanaLogin abc = new VentanaLogin();
         abc.setExtendedState(MAXIMIZED_BOTH);
-        
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

@@ -1,26 +1,32 @@
 package proyectoaula.ventanas;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import javax.swing.JOptionPane;
 import proyectoaula.objects.Usuario;
+
 public class VentanaRegistroUsuario extends javax.swing.JDialog {
-  public HashMap<String, ArrayList<String>> usuarios = new HashMap<>();
+
+    public HashMap<String, ArrayList<String>> usuarios = new HashMap<>();
     Usuario usuario = new Usuario();
+
     public VentanaRegistroUsuario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
-     public void limpiarCampos() {
+
+    public void limpiarCampos() {
         txtNombre.setText("");
         txtApellido.setText("");
-        txtEmail.setText(""); 
+        txtEmail.setText("");
         txtTelefono.setText("");
         txtCedula.setText("");
         txtContraseña.setText("");
         botonEditar.setEnabled(false);
-        botonEliminar.setEnabled(false);      
+        botonEliminar.setEnabled(false);
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -275,74 +281,74 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
-       String nombre = txtNombre.getText();
-        String apellido = txtApellido.getText();  
-        String cedula = txtCedula.getText(); 
+        String nombre = txtNombre.getText();
+        String apellido = txtApellido.getText();
+        String cedula = txtCedula.getText();
         String email = txtEmail.getText();
         String telefono = txtTelefono.getText();
         String contraseña = txtContraseña.getText();
-        if(nombre.isEmpty()||nombre.isBlank()||apellido.isEmpty()||apellido.isBlank()||cedula.isEmpty()||cedula.isBlank()||telefono.isEmpty()||telefono.isBlank()
-           ||email.isEmpty()||email.isEmpty()||contraseña.isEmpty()||contraseña.isBlank()){
+        if (nombre.isEmpty() || nombre.isBlank() || apellido.isEmpty() || apellido.isBlank() || cedula.isEmpty() || cedula.isBlank() || telefono.isEmpty() || telefono.isBlank()
+                || email.isEmpty() || email.isEmpty() || contraseña.isEmpty() || contraseña.isBlank()) {
             JOptionPane.showMessageDialog(this, "Rellene todos los campos para continuar.");
-        }else{
-        usuario = new Usuario();
-        usuario.nombre = nombre;
-        usuario.apellido = apellido;
-        usuario.nroDocumento = cedula;
-        usuario.email = email;
-        usuario.telefono = telefono;
-        usuario.contraseña = contraseña;
-        if(Usuario.usuariosBD==null){
-        Usuario.usuariosBD= new HashMap<String, Usuario>();
-        }
-        if(Usuario.usuariosBD.containsKey(cedula)){
-            String msj = "Ya existe este usuario.";
-            JOptionPane.showMessageDialog(this, msj);
-        }else{
-        Usuario.usuariosBD.put(cedula, usuario);
-        int tamaño = Usuario.usuariosBD.size();
-        String msj = """
+        } else {
+            usuario = new Usuario();
+            usuario.nombre = nombre;
+            usuario.apellido = apellido;
+            usuario.nroDocumento = cedula;
+            usuario.email = email;
+            usuario.telefono = telefono;
+            usuario.contraseña = contraseña;
+            if (Usuario.usuariosBD == null) {
+                Usuario.usuariosBD = new HashMap<String, Usuario>();
+            }
+            if (Usuario.usuariosBD.containsKey(cedula)) {
+                String msj = "Ya existe este usuario.";
+                JOptionPane.showMessageDialog(this, msj);
+            } else {
+                Usuario.usuariosBD.put(cedula, usuario);
+                int tamaño = Usuario.usuariosBD.size();
+                String msj = """
                      \u00a1Todos los datos se guardaron exitosamente!
-                     Existen """+tamaño+" usuarios";
-        JOptionPane.showMessageDialog(this,msj);
-        }
-        limpiarCampos();
+                     Existen """ + tamaño + " usuarios";
+                JOptionPane.showMessageDialog(this, msj);
+            }
+            limpiarCampos();
         }
     }//GEN-LAST:event_botonGuardarActionPerformed
 
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
-    String cedula = txtCedula.getText();
-    
-    if(Usuario.usuariosBD==null||Usuario.usuariosBD.isEmpty()){
-        JOptionPane.showMessageDialog(this,"No existen usuarios en la base de datos.");
-    }else{
-        if(Usuario.usuariosBD.containsKey(cedula)){
-            Usuario usuario = Usuario.usuariosBD.get(cedula);
-            txtNombre.setText(usuario.nombre);
-            txtApellido.setText(usuario.apellido);
-            txtEmail.setText(usuario.email); 
-            txtTelefono.setText(usuario.telefono);
-            txtContraseña.setText("**********");
-             botonEditar.setEnabled(true);
-        botonEliminar.setEnabled(true); 
-        
-        }else{
-            JOptionPane.showMessageDialog(this,"No existe usuario con cedula "+cedula);
+        String cedula = txtCedula.getText();
+
+        if (Usuario.usuariosBD == null || Usuario.usuariosBD.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No existen usuarios en la base de datos.");
+        } else {
+            if (Usuario.usuariosBD.containsKey(cedula)) {
+                Usuario usuario = Usuario.usuariosBD.get(cedula);
+                txtNombre.setText(usuario.nombre);
+                txtApellido.setText(usuario.apellido);
+                txtEmail.setText(usuario.email);
+                txtTelefono.setText(usuario.telefono);
+                txtContraseña.setText("**********");
+                botonEditar.setEnabled(true);
+                botonEliminar.setEnabled(true);
+
+            } else {
+                JOptionPane.showMessageDialog(this, "No existe usuario con cedula " + cedula);
+            }
         }
-    }
     }//GEN-LAST:event_botonBuscarActionPerformed
 
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
-    botonBuscarActionPerformed(evt);
-    if(txtCedula.getText()==null||txtCedula.getText().isEmpty()){
-        String msj = "Para editar, primero debe buscar un usuario.";
-        JOptionPane.showMessageDialog(this,msj);    
-        limpiarCampos();
-        return;
-    }
-    Usuario usuario1 = Usuario.usuariosBD.get(txtCedula.getText());
-    String nombre = txtNombre.getText();
-        String apellido = txtApellido.getText();   
+        botonBuscarActionPerformed(evt);
+        if (txtCedula.getText() == null || txtCedula.getText().isEmpty()) {
+            String msj = "Para editar, primero debe buscar un usuario.";
+            JOptionPane.showMessageDialog(this, msj);
+            limpiarCampos();
+            return;
+        }
+        Usuario usuario1 = Usuario.usuariosBD.get(txtCedula.getText());
+        String nombre = txtNombre.getText();
+        String apellido = txtApellido.getText();
         String email = txtEmail.getText();
         String telefono = txtTelefono.getText();
         String contraseña = txtContraseña.getText();
@@ -354,7 +360,7 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         //Se guarda la modificación
         Usuario.usuariosBD.put(usuario1.nroDocumento, usuario1);
         String msj = "¡Usuario modificado con éxito!";
-        JOptionPane.showMessageDialog(this,msj);    
+        JOptionPane.showMessageDialog(this, msj);
     }//GEN-LAST:event_botonEditarActionPerformed
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
