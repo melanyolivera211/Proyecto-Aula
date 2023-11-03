@@ -1,11 +1,4 @@
 /nbproject/private/
 /build/
 /DatosTXT/*
-/src/proyectoaula/ventanas/Ventana.java
-/src/proyectoaula/ventanas/Ventana.form
-/src/proyectoaula/ventanas/VentanaGastos.java
-/src/proyectoaula/ventanas/VentanaGastos.form
-/src/proyectoaula/ventanas/VentanaLogin.java
-/src/proyectoaula/ventanas/VentanaLogin.form
-/src/proyectoaula/ventanas/VentanaRegistroUsuario.form
 /src/proyectoaula/ventanas/VentanaRegistroUsuario.java
