@@ -4,7 +4,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JOptionPane;
+import proyectoaula.objects.Usuario;
 public class VentanaLogin extends javax.swing.JFrame {
+    Usuario[] docu = new Usuario[1];
+    Usuario nro = new Usuario();
+    
+    String cedula1;
     String usu= File.separator;
     String crearblock = System.getProperty("user.dir") + usu + "UsuariosBD" + usu;
     public VentanaLogin() {
@@ -171,7 +176,7 @@ public class VentanaLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEntrarActionPerformed
-    String cedula1 = txtCedula.getText();
+    cedula1 = txtCedula.getText();
     String contraseña1 = new String(txtContraseña.getPassword());
     verificarInicioSesion(cedula1, contraseña1);
     }//GEN-LAST:event_botonEntrarActionPerformed
@@ -192,6 +197,9 @@ public class VentanaLogin extends javax.swing.JFrame {
             }
             lector.close();
             if (contraseñaAlmacenada != null && contraseñaAlmacenada.equals(contraseña)) {
+                nro = new Usuario();
+                nro.nroDocumento = archivo;
+                docu[0] = nro;
                 // La contraseña coincide, inicio de sesión exitoso
                 Ventana ventana = new Ventana();
                 ventana.setVisible(true);

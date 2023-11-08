@@ -6,18 +6,16 @@ import java.io.FileWriter;
 import java.io.Writer;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import proyectoaula.objects.Usuario;
 
 public class VentanaElectrodomestico extends javax.swing.JFrame {
-
     String elec = File.separator;
     String UsuariosBD = "C:\\Users\\HP\\Documents\\NetBeansProjects\\ProyectoAula\\UsuariosBD";
-    String Electrodomesticos = UsuariosBD + elec + "DatoselectrodomesticoTXT" + elec;
     private DefaultTableModel modelo;
-    
 
     public VentanaElectrodomestico() {
         initComponents();
-        
+
         modelo = new DefaultTableModel();
         modelo.addColumn("Electrodomestico");
         modelo.addColumn("Nro.Serie");
@@ -27,6 +25,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
     }
 
     private void agregar() {
+
         String electrodomestico = electrodomesticoTXT.getText();
         String nroserie = nroserieTXT.getText();
         String marca = marcaTXT.getText();
@@ -41,6 +40,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
     }
 
     private void crear() {
+        String Electrodomesticos = UsuariosBD + elec + "" + elec;
         String archivo = nroserieTXT.getText() + ".txt";
         File crearubi = new File(Electrodomesticos);
         File creararchivo = new File(Electrodomesticos + archivo);
@@ -56,9 +56,9 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
                     crearubi.mkdirs();
                     creararchivo.createNewFile();
                     Writer escritorDeArchivo = new FileWriter(creararchivo.getAbsolutePath());
-                    String datosElectrodomestico = "Electrodomestico: "+  electrodomesticoTXT.getText()+"\n";
-                    datosElectrodomestico += "Nro. Serie: " + nroserieTXT.getText()+"\n";
-                    datosElectrodomestico +=  "Marca: " + marcaTXT.getText();
+                    String datosElectrodomestico = "Electrodomestico: " + electrodomesticoTXT.getText() + "\n";
+                    datosElectrodomestico += "Nro. Serie: " + nroserieTXT.getText() + "\n";
+                    datosElectrodomestico += "Marca: " + marcaTXT.getText();
                     escritorDeArchivo.write(datosElectrodomestico);
                     escritorDeArchivo.flush();
                     escritorDeArchivo.close();
