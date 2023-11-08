@@ -437,7 +437,7 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
     private void RegresarVentanaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarVentanaActionPerformed
         VentanaLogin abc = new VentanaLogin();
         abc.setVisible(true);
-        this.dispose();
+        this.setVisible(false);
     }//GEN-LAST:event_RegresarVentanaActionPerformed
     private void eliminarDatosAlmacenados() {
         String archivo = txtCedula.getText() + ".txt";

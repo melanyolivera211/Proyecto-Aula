@@ -1,4 +1,5 @@
 package proyectoaula.ventanas;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -6,14 +7,18 @@ import java.io.FileWriter;
 import java.io.Writer;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import proyectoaula.objects.Usuario;
 
 public class VentanaElectrodomestico extends javax.swing.JFrame {
+
     String elec = File.separator;
     String UsuariosBD = "C:\\Users\\HP\\Documents\\NetBeansProjects\\ProyectoAula\\UsuariosBD";
     private DefaultTableModel modelo;
 
+    private String cedula1;
+    
     public VentanaElectrodomestico() {
+        this.cedula1 = cedula1;
+        System.out.println("Cédula en VentanaElectrodomestico: " + cedula1);
         initComponents();
 
         modelo = new DefaultTableModel();
@@ -40,7 +45,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
     }
 
     private void crear() {
-        String Electrodomesticos = UsuariosBD + elec + "" + elec;
+        String Electrodomesticos = UsuariosBD + elec + cedula1 + elec;
         String archivo = nroserieTXT.getText() + ".txt";
         File crearubi = new File(Electrodomesticos);
         File creararchivo = new File(Electrodomesticos + archivo);
@@ -213,7 +218,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/electrodomesticos.png"))); // NOI18N
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 230, 310));
 
-        PanelElectrodomestico.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 840, 500));
+        PanelElectrodomestico.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 840, 510));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -225,7 +230,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(PanelElectrodomestico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 2, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -234,7 +239,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
     private void RegresarVentanaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarVentanaActionPerformed
         Ventana abc = new Ventana();
         abc.setVisible(true);
-        this.dispose();
+        this.setVisible(false);
     }//GEN-LAST:event_RegresarVentanaActionPerformed
 
     private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
@@ -255,7 +260,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VentanaElectrodomestico().setVisible(true);
+            new VentanaElectrodomestico().setVisible(true);
             }
         });
     }

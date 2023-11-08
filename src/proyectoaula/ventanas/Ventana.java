@@ -1,13 +1,18 @@
-
 package proyectoaula.ventanas;
+
 public class Ventana extends javax.swing.JFrame {
-    private String cedula="";
+
+    private String cedula1;
 
     public Ventana() {
-        
+
         initComponents();
     }
-    
+
+    public void setCedula(String cedula) {
+        this.cedula1 = cedula;
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -117,17 +122,18 @@ public class Ventana extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-   
+
     private void botonGastosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGastosActionPerformed
         VentanaGastos abc = new VentanaGastos();
         abc.setVisible(true);
-        this.dispose();
+        this.setVisible(false);
     }//GEN-LAST:event_botonGastosActionPerformed
 
     private void botonElectrodomesticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonElectrodomesticoActionPerformed
         VentanaElectrodomestico abcd = new VentanaElectrodomestico();
         abcd.setVisible(true);
-        this.dispose();
+        this.setVisible(false);
+
     }//GEN-LAST:event_botonElectrodomesticoActionPerformed
 
     private void RegresarVentanaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarVentanaActionPerformed
