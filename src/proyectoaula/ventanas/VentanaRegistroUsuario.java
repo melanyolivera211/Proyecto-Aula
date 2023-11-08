@@ -56,7 +56,7 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         }
 
     }
- 
+     // método para limpiar campos
      public void limpiarCampos() {
         txtNombre.setText("");
         txtApellido.setText("");
