@@ -1,0 +1,6 @@
+Cedula: 1234567
+Nombre: Melina
+Apellido: Duarte
+Télefono: 123456
+Email: meli@
+Contraseña: melina
