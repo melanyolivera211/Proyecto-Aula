@@ -1,49 +1,86 @@
 package proyectoaula.ventanas;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.InputMismatchException;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import javax.swing.JOptionPane;
-import proyectoaula.objects.Usuario;
 
 public class VentanaRegistroUsuario extends javax.swing.JDialog {
-
-    public HashMap<String, ArrayList<String>> usuarios = new HashMap<>();
-    Usuario usuario = new Usuario();
+   String usu= File.separator;
+    String crearblock = System.getProperty("user.dir") + usu + "UsuariosBD" + usu;
+  
+    int c = 0;
 
     public VentanaRegistroUsuario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
     
+    
+    //Crear base de datos
+    private void crearUsuarios() {
+        String archivo = txtCedula.getText() + ".txt";
+        File crearubi = new File(crearblock);
+        File creararchivo = new File(crearblock + archivo);
 
-    public void limpiarCampos() {
+        if (txtCedula.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Este usuario no existe.");
+
+        } else {
+            try {
+                if (creararchivo.exists()) {
+                    JOptionPane.showMessageDialog(rootPane, "Este usuario ya está registrado.");
+                } else {
+                    crearubi.mkdirs();
+                    creararchivo.createNewFile();
+                    Writer escritorDeArchivo = new FileWriter(creararchivo.getAbsolutePath());
+                    String datosElectrodomestico = "Cedula: "+  txtCedula.getText()+"\n";
+                    datosElectrodomestico += "Nombre: " + txtNombre.getText()+"\n";
+                    datosElectrodomestico +=  "Apellido: " + txtApellido.getText()+"\n";
+                    datosElectrodomestico +=  "Télefono: " + txtTelefono.getText()+"\n";
+                    datosElectrodomestico +=  "Email: " + txtEmail.getText()+"\n";
+                    datosElectrodomestico +=  "Contraseña: " + txtContraseña.getText()+"\n";
+                    escritorDeArchivo.write(datosElectrodomestico);
+                    escritorDeArchivo.flush();
+                    escritorDeArchivo.close();
+                    JOptionPane.showMessageDialog(rootPane, "¡El usuario ha sido registrado con éxito!");
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "No se pudo registrar el usuario.", "Error", JOptionPane.ERROR_MESSAGE);
+          
+            }
+            crearElectrodomesticos(txtNombre.getText(), txtCedula.getText());
+        }
+
+    }
+ 
+     public void limpiarCampos() {
         txtNombre.setText("");
         txtApellido.setText("");
-        txtEmail.setText("");
+        txtEmail.setText(""); 
         txtTelefono.setText("");
         txtCedula.setText("");
-        txtContraseña.setText("");
-        botonEditar.setEnabled(false);
-        botonEliminar.setEnabled(false);
+        txtContraseña.setText("");     
     }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        telefono = new javax.swing.JLabel();
         txtContraseña = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        contraseña = new javax.swing.JLabel();
+        nombre = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        apellido = new javax.swing.JLabel();
         txtApellido = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        cedula = new javax.swing.JLabel();
         txtCedula = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
+        email = new javax.swing.JLabel();
         txtTelefono = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -52,58 +89,57 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         botonBuscar = new javax.swing.JButton();
         botonEditar = new javax.swing.JButton();
         botonEliminar = new javax.swing.JButton();
-        RegresarVentana = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
-        jPanel2.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 0, 204), 2), "Datos de Usuario", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 18))); // NOI18N
 
-        jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel4.setText("Télefono:");
+        telefono.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        telefono.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        telefono.setText("Télefono:");
 
         txtContraseña.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         txtContraseña.setAlignmentX(5.0F);
         txtContraseña.setMinimumSize(new java.awt.Dimension(60, 23));
         txtContraseña.setPreferredSize(new java.awt.Dimension(80, 30));
 
-        jLabel6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel6.setText("Contraseña:");
+        contraseña.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        contraseña.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        contraseña.setText("Contraseña:");
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel1.setText("Nombre:");
+        nombre.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        nombre.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        nombre.setText("Nombre:");
 
         txtNombre.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         txtNombre.setAlignmentX(5.0F);
         txtNombre.setMinimumSize(new java.awt.Dimension(60, 23));
         txtNombre.setPreferredSize(new java.awt.Dimension(80, 30));
 
-        jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel2.setText("Apellido: ");
+        apellido.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        apellido.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        apellido.setText("Apellido: ");
 
         txtApellido.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         txtApellido.setAlignmentX(5.0F);
         txtApellido.setMinimumSize(new java.awt.Dimension(60, 23));
         txtApellido.setPreferredSize(new java.awt.Dimension(80, 30));
 
-        jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel3.setText("Cédula:");
+        cedula.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        cedula.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        cedula.setText("Cédula:");
 
         txtCedula.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         txtCedula.setAlignmentX(5.0F);
         txtCedula.setMinimumSize(new java.awt.Dimension(60, 23));
         txtCedula.setPreferredSize(new java.awt.Dimension(80, 30));
 
-        jLabel8.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel8.setText("Email:");
+        email.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        email.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        email.setText("Email:");
 
         txtTelefono.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         txtTelefono.setAlignmentX(5.0F);
@@ -119,15 +155,15 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(84, 84, 84)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(83, 83, 83)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(contraseña, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(nombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(apellido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cedula, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(telefono, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(email, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,7 +174,7 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(76, 76, 76))
+                .addGap(48, 48, 48))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,26 +182,26 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cedula, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(apellido, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(telefono, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 16, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
+                    .addComponent(contraseña)
                     .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21))
         );
@@ -174,7 +210,9 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         jLabel5.setText("FORMULARIO PARA REGISTRO DE USUARIOS");
 
         botonGuardar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        botonGuardar.setText("REGISTRAR");
+        botonGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/salvar.png"))); // NOI18N
+        botonGuardar.setText("GUARDAR");
+        botonGuardar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         botonGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonGuardarActionPerformed(evt);
@@ -184,7 +222,9 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/trabajo-en-equipo.png"))); // NOI18N
 
         botonBuscar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        botonBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/buscar.png"))); // NOI18N
         botonBuscar.setText("BUSCAR");
+        botonBuscar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         botonBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonBuscarActionPerformed(evt);
@@ -192,7 +232,9 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         });
 
         botonEditar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        botonEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/editar-codigo.png"))); // NOI18N
         botonEditar.setText("EDITAR");
+        botonEditar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         botonEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonEditarActionPerformed(evt);
@@ -200,19 +242,12 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         });
 
         botonEliminar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        botonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/borrar.png"))); // NOI18N
         botonEliminar.setText("ELIMINAR");
+        botonEliminar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         botonEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonEliminarActionPerformed(evt);
-            }
-        });
-
-        RegresarVentana.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        RegresarVentana.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/atras.png"))); // NOI18N
-        RegresarVentana.setText("Regresar");
-        RegresarVentana.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RegresarVentanaActionPerformed(evt);
             }
         });
 
@@ -221,28 +256,22 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(RegresarVentana)
-                        .addGap(99, 99, 99)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGap(45, 45, 45)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(botonGuardar)
-                            .addGap(47, 47, 47)
-                            .addComponent(botonBuscar)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(botonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(51, 51, 51)
-                            .addComponent(botonEliminar))
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(83, Short.MAX_VALUE))
+                            .addComponent(botonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(botonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(botonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(26, 26, 26)
+                            .addComponent(botonEliminar))))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -252,19 +281,17 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(24, 24, 24))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, Short.MAX_VALUE)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(botonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(botonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(RegresarVentana, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(botonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(44, 44, 44))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(botonGuardar)
+                            .addComponent(botonBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(botonEliminar)
+                            .addComponent(botonEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(45, 45, 45))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(108, 108, 108))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -282,102 +309,132 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
-        String nombre = txtNombre.getText();
-        String apellido = txtApellido.getText();
-        String cedula = txtCedula.getText();
-        String email = txtEmail.getText();
-        String telefono = txtTelefono.getText();
-        String contraseña = txtContraseña.getText();
-        if (nombre.isEmpty() || nombre.isBlank() || apellido.isEmpty() || apellido.isBlank() || cedula.isEmpty() || cedula.isBlank() || telefono.isEmpty() || telefono.isBlank()
-                || email.isEmpty() || email.isEmpty() || contraseña.isEmpty() || contraseña.isBlank()) {
-            JOptionPane.showMessageDialog(this, "Rellene todos los campos para continuar.");
-        } else {
-            usuario = new Usuario();
-            usuario.nombre = nombre;
-            usuario.apellido = apellido;
-            usuario.nroDocumento = cedula;
-            usuario.email = email;
-            usuario.telefono = telefono;
-            usuario.contraseña = contraseña;
-            if (Usuario.usuariosBD == null) {
-                Usuario.usuariosBD = new HashMap<String, Usuario>();
-            }
-            if (Usuario.usuariosBD.containsKey(cedula)) {
-                String msj = "Ya existe este usuario.";
-                JOptionPane.showMessageDialog(this, msj);
-            } else {
-                Usuario.usuariosBD.put(cedula, usuario);
-                int tamaño = Usuario.usuariosBD.size();
-                String msj = """
-                     \u00a1Todos los datos se guardaron exitosamente!
-                     Existen """ + tamaño + " usuarios";
-                JOptionPane.showMessageDialog(this, msj);
-            }
-            limpiarCampos();
-        }
+    String nombre = txtNombre.getText();
+    String apellido = txtApellido.getText();  
+    String cedula = txtCedula.getText(); 
+    String email = txtEmail.getText();
+    String telefono = txtTelefono.getText();
+    String contraseña = txtContraseña.getText();
+        
+    if(nombre.isEmpty()||nombre.isBlank()||apellido.isEmpty()||apellido.isBlank()||cedula.isEmpty()||cedula.isBlank()||telefono.isEmpty()||telefono.isBlank()
+    ||email.isEmpty()||email.isEmpty()||contraseña.isEmpty()||contraseña.isBlank()){
+    JOptionPane.showMessageDialog(this, "Rellene todos los campos para continuar.");
+    }if (!cedula.matches("\\d+")) {
+    JOptionPane.showMessageDialog(rootPane, "El número de cédula debe contener solo números enteros.", "Error de formato", JOptionPane.ERROR_MESSAGE);
+    return; // Sale del método si el formato es incorrecto
+    }if (!telefono.matches("\\d+")) {
+    JOptionPane.showMessageDialog(rootPane, "El número de teléfono debe contener solo números enteros.", "Error de formato", JOptionPane.ERROR_MESSAGE);
+    return; // Sale del método si el formato es incorrecto
+    }else{
+    crearUsuarios();
+    limpiarCampos();
+    }
     }//GEN-LAST:event_botonGuardarActionPerformed
 
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
-        String cedula = txtCedula.getText();
-
-        if (Usuario.usuariosBD == null || Usuario.usuariosBD.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No existen usuarios en la base de datos.");
-        } else {
-            if (Usuario.usuariosBD.containsKey(cedula)) {
-                Usuario usuario = Usuario.usuariosBD.get(cedula);
-                txtNombre.setText(usuario.nombre);
-                txtApellido.setText(usuario.apellido);
-                txtEmail.setText(usuario.email);
-                txtTelefono.setText(usuario.telefono);
-                txtContraseña.setText("**********");
-                botonEditar.setEnabled(true);
-                botonEliminar.setEnabled(true);
-
-            } else {
-                JOptionPane.showMessageDialog(this, "No existe usuario con cedula " + cedula);
-            }
-        }
+    mostrarDatosAlmacenados();
     }//GEN-LAST:event_botonBuscarActionPerformed
+    private void mostrarDatosAlmacenados() {
+    String archivo = txtCedula.getText() + ".txt";
+    File archivoALeer = new File(crearblock + archivo);
+    if (archivoALeer.exists()) {
+        try {
+            BufferedReader lector = new BufferedReader(new FileReader(archivoALeer.getAbsolutePath()));
+            String linea;
+            String datos = "";
 
-    private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
-        botonBuscarActionPerformed(evt);
-        if (txtCedula.getText() == null || txtCedula.getText().isEmpty()) {
-            String msj = "Para editar, primero debe buscar un usuario.";
-            JOptionPane.showMessageDialog(this, msj);
-            limpiarCampos();
-            return;
+             while ((linea = lector.readLine()) != null) {
+                datos += linea + "\n";
+                if (linea.startsWith("Nombre:")) {
+                    txtNombre.setText(linea.substring(8));
+                } else if (linea.startsWith("Apellido:")) {
+                    txtApellido.setText(linea.substring(9));
+                } else if (linea.startsWith("Télefono:")) {
+                    txtTelefono.setText(linea.substring(10));
+                } else if (linea.startsWith("Email:")) {
+                    txtEmail.setText(linea.substring(7));
+                } else if (linea.startsWith("Contraseña:")) {
+                    txtContraseña.setText(linea.substring(12));
+                }
+            }
+            lector.close();
+           
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al leer el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        Usuario usuario1 = Usuario.usuariosBD.get(txtCedula.getText());
-        String nombre = txtNombre.getText();
-        String apellido = txtApellido.getText();
-        String email = txtEmail.getText();
-        String telefono = txtTelefono.getText();
-        String contraseña = txtContraseña.getText();
-        usuario1.nombre = nombre;
-        usuario1.apellido = apellido;
-        usuario1.email = email;
-        usuario1.telefono = telefono;
-        usuario1.contraseña = contraseña;
-        //Se guarda la modificación
-        Usuario.usuariosBD.put(usuario1.nroDocumento, usuario1);
-        String msj = "¡Usuario modificado con éxito!";
-        JOptionPane.showMessageDialog(this, msj);
+    } else {
+        JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
+    }
+    }
+    private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
+    editarDatosAlmacenados();
+    limpiarCampos();
     }//GEN-LAST:event_botonEditarActionPerformed
+    private void editarDatosAlmacenados() {
+    String archivo = txtCedula.getText() + ".txt";
+    File archivoAEditar = new File(crearblock + archivo);
+    if (archivoAEditar.exists()) {
+        try {
+            BufferedReader lector = new BufferedReader(new FileReader(archivoAEditar.getAbsolutePath()));
+            String linea;
+            StringBuilder datos = new StringBuilder();
 
+            while ((linea = lector.readLine()) != null) {
+                if (linea.startsWith("Nombre:") && !txtNombre.getText().equals("")) {
+                    datos.append("Nombre: ").append(txtNombre.getText()).append("\n");
+                } else if (linea.startsWith("Apellido:") && !txtApellido.getText().equals("")) {
+                    datos.append("Apellido: ").append(txtApellido.getText()).append("\n");
+                } else if (linea.startsWith("Télefono:") && !txtTelefono.getText().equals("")) {
+                    datos.append("Télefono: ").append(txtTelefono.getText()).append("\n");
+                } else if (linea.startsWith("Email:") && !txtEmail.getText().equals("")) {
+                    datos.append("Email: ").append(txtEmail.getText()).append("\n");
+                } else if (linea.startsWith("Contraseña:") && !txtContraseña.getText().equals("")) {
+                    datos.append("Contraseña: ").append(txtContraseña.getText()).append("\n");
+                } else {
+                    datos.append(linea).append("\n");
+                }
+            }
+            lector.close();
+
+            BufferedWriter escritor = new BufferedWriter(new FileWriter(archivoAEditar.getAbsolutePath()));
+            escritor.write(datos.toString());
+            escritor.close();
+
+            JOptionPane.showMessageDialog(rootPane, "Los datos se han actualizado correctamente.", "Edición Exitosa", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al editar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
+    }
+}
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
-        // TODO add your handling code here:
+    eliminarDatosAlmacenados();
+    limpiarCampos();
     }//GEN-LAST:event_botonEliminarActionPerformed
+   private void eliminarDatosAlmacenados() {
+    String archivo = txtCedula.getText() + ".txt";
+    File archivoAEliminar = new File(crearblock + archivo);
 
-    private void RegresarVentanaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarVentanaActionPerformed
-        Ventana abc = new Ventana();
-        abc.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_RegresarVentanaActionPerformed
-
+    if (archivoAEliminar.exists()) {
+        try {
+            if (archivoAEliminar.delete()) {
+                JOptionPane.showMessageDialog(rootPane, "Los datos se han eliminado correctamente.", "Eliminación Exitosa", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "No se pudo eliminar el archivo.", "Error al Eliminar", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SecurityException e) {
+            JOptionPane.showMessageDialog(null, "Error de permisos al intentar eliminar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
+    }
+    }
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -418,21 +475,20 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton RegresarVentana;
+    private javax.swing.JLabel apellido;
     private javax.swing.JButton botonBuscar;
     private javax.swing.JButton botonEditar;
     private javax.swing.JButton botonEliminar;
     private javax.swing.JButton botonGuardar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel cedula;
+    private javax.swing.JLabel contraseña;
+    private javax.swing.JLabel email;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel nombre;
+    private javax.swing.JLabel telefono;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtContraseña;
@@ -440,4 +496,8 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
+
+    private void crearElectrodomesticos(String text, String text0) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

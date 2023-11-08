@@ -1,7 +1,6 @@
 package proyectoaula.ventanas;
-
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
@@ -11,14 +10,14 @@ import javax.swing.table.DefaultTableModel;
 public class VentanaElectrodomestico extends javax.swing.JFrame {
 
     String elec = File.separator;
-    String crearblock = System.getProperty("user.dir") + elec + "DatosTXT" + elec;
+    String UsuariosBD = "C:\\Users\\HP\\Documents\\NetBeansProjects\\ProyectoAula\\UsuariosBD";
+    String Electrodomesticos = UsuariosBD + elec + "DatoselectrodomesticoTXT" + elec;
     private DefaultTableModel modelo;
-    int c = 0;
-    //la puta madre malparido
     
 
     public VentanaElectrodomestico() {
         initComponents();
+        
         modelo = new DefaultTableModel();
         modelo.addColumn("Electrodomestico");
         modelo.addColumn("Nro.Serie");
@@ -43,8 +42,8 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
 
     private void crear() {
         String archivo = nroserieTXT.getText() + ".txt";
-        File crearubi = new File(crearblock);
-        File creararchivo = new File(crearblock + archivo);
+        File crearubi = new File(Electrodomesticos);
+        File creararchivo = new File(Electrodomesticos + archivo);
 
         if (nroserieTXT.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "este electrodomestico no existe");
@@ -57,9 +56,9 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
                     crearubi.mkdirs();
                     creararchivo.createNewFile();
                     Writer escritorDeArchivo = new FileWriter(creararchivo.getAbsolutePath());
-                    String datosElectrodomestico = "Electrodomestico: " + electrodomesticoTXT.getText() + "\n";
-                    datosElectrodomestico += "Nro. Serie: " + nroserieTXT.getText() + "\n";
-                    datosElectrodomestico += "Marca: " + marcaTXT.getText();
+                    String datosElectrodomestico = "Electrodomestico: "+  electrodomesticoTXT.getText()+"\n";
+                    datosElectrodomestico += "Nro. Serie: " + nroserieTXT.getText()+"\n";
+                    datosElectrodomestico +=  "Marca: " + marcaTXT.getText();
                     escritorDeArchivo.write(datosElectrodomestico);
                     escritorDeArchivo.flush();
                     escritorDeArchivo.close();
@@ -119,15 +118,15 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(220, 220, 220));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255)), "Datos Del Electrodomestico", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 14))); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel2.setText("Electrodomestico:");
 
         nroserieTXT.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel1.setText("Nro. Serie:");
 
-        jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel3.setText("Marca:");
 
         marcaTXT.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
