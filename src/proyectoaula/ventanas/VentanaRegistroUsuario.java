@@ -7,13 +7,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import javax.swing.JOptionPane;
-
+ 
 public class VentanaRegistroUsuario extends javax.swing.JDialog {
-   String usu= File.separator;
-    String crearblock = System.getProperty("user.dir") + usu + "UsuariosBD" + usu;
+    String usu= File.separator;
+    public String crearblock = System.getProperty("user.dir") + usu + "UsuariosBD" + usu;
   
-    int c = 0;
-
     public VentanaRegistroUsuario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -37,13 +35,15 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
                     crearubi.mkdirs();
                     creararchivo.createNewFile();
                     Writer escritorDeArchivo = new FileWriter(creararchivo.getAbsolutePath());
-                    String datosElectrodomestico = "Cedula: "+  txtCedula.getText()+"\n";
-                    datosElectrodomestico += "Nombre: " + txtNombre.getText()+"\n";
-                    datosElectrodomestico +=  "Apellido: " + txtApellido.getText()+"\n";
-                    datosElectrodomestico +=  "Télefono: " + txtTelefono.getText()+"\n";
-                    datosElectrodomestico +=  "Email: " + txtEmail.getText()+"\n";
-                    datosElectrodomestico +=  "Contraseña: " + txtContraseña.getText()+"\n";
-                    escritorDeArchivo.write(datosElectrodomestico);
+                    String datosUsuarios = "Cedula: "+  txtCedula.getText()+"\n";
+                    datosUsuarios += "Nombre: " + txtNombre.getText()+"\n";
+                    datosUsuarios +=  "Apellido: " + txtApellido.getText()+"\n";
+                    datosUsuarios +=  "Télefono: " + txtTelefono.getText()+"\n";
+                    datosUsuarios +=  "Email: " + txtEmail.getText()+"\n";
+                    datosUsuarios +=  "Contraseña: " + txtContraseña.getText()+"\n";
+                    datosUsuarios +=  "\n";
+                    
+                    escritorDeArchivo.write(datosUsuarios);
                     escritorDeArchivo.flush();
                     escritorDeArchivo.close();
                     JOptionPane.showMessageDialog(rootPane, "¡El usuario ha sido registrado con éxito!");
@@ -52,7 +52,7 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "No se pudo registrar el usuario.", "Error", JOptionPane.ERROR_MESSAGE);
           
             }
-            crearElectrodomesticos(txtNombre.getText(), txtCedula.getText());
+            
         }
 
     }

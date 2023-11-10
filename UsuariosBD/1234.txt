@@ -4,3 +4,8 @@ Apellido: Olivera
 Télefono: 123456
 Email: melany@
 Contraseña: 123456
+
+Electrodoméstico: lavadora
+Marca: 1234
+Modelo: samsung
+
