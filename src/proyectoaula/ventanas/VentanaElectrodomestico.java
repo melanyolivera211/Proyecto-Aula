@@ -304,7 +304,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
         }
         if (!cedula.matches("\\d+")) {
             JOptionPane.showMessageDialog(rootPane, "El número de cédula debe contener solo números enteros.", "Error de formato", JOptionPane.ERROR_MESSAGE);
-            return; // Sale del método si el formato es incorrecto
+            return;
         } else {
             registrarElectrodomestico();
             limpiarCampos();

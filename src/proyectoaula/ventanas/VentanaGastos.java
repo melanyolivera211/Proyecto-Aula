@@ -1,8 +1,11 @@
 package proyectoaula.ventanas;
+
 public class VentanaGastos extends javax.swing.JFrame {
+
     public VentanaGastos() {
         initComponents();
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
