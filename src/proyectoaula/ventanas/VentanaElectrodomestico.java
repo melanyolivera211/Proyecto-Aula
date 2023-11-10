@@ -14,7 +14,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
 
     String elec = File.separator;
     String crearblock = System.getProperty("user.dir") + elec + "UsuariosBD" + elec;
-    String rutaelectrodomestico = "C:\\Users\\HP\\Documents\\NetBeansProjects\\ProyectoAula\\UsuariosBD";
+    String rutaelectrodomestico = "UsuariosBD";
     private DefaultTableModel modelo;
 
     public VentanaElectrodomestico() {
