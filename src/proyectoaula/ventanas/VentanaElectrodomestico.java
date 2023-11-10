@@ -74,7 +74,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
         }
     }
 
-    private void buscarelectrodomestico() {
+    private void buscarElectrodomestico() {
         String cedula = txtCedula.getText();
         String archivoUsuario = cedula + ".txt";
         File rutaArchivo = new File(crearblock + archivoUsuario);
@@ -110,7 +110,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
         }
     }
 
-    private void editarelectrodomestico() {
+     private void editarElectrodomestico() {
         String cedula = txtCedula.getText();
         String archivoUsuario = cedula + ".txt";
         File rutaArchivo = new File(crearblock + archivoUsuario);
@@ -436,7 +436,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
         if (serie.isEmpty() || serie.isBlank() || cedula.isEmpty() || cedula.isBlank()) {
             JOptionPane.showMessageDialog(rootPane, "el espacio para ingresar la cedula o el nro.serie esta/n vacios favor rellenar ambos para buscar el electrodomestico");
         } else {
-            editarelectrodomestico();
+            editarElectrodomestico();
             electrodomesticoTXT.setText("");
             nroserieTXT.setText("");
             marcaTXT.setText("");
@@ -455,7 +455,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
         if (cedula.isEmpty() || cedula.isBlank() || electrodomestico.isEmpty() || electrodomestico.isBlank() || nroserie.isEmpty() || nroserie.isBlank() || marca.isEmpty() || marca.isBlank()) {
             JOptionPane.showMessageDialog(rootPane, "Uno o mas campos de texto esta vacios favor rellenarlos");
         } else {
-            buscarelectrodomestico();
+            buscarElectrodomestico();
             electrodomesticoTXT.setText("");
             nroserieTXT.setText("");
             marcaTXT.setText("");
