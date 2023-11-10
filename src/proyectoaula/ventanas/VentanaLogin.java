@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 
 public class VentanaLogin extends javax.swing.JFrame {
 
-    public String cedula1;
     String usu = File.separator;
     String crearblock = System.getProperty("user.dir") + usu + "UsuariosBD" + usu;
 
@@ -177,10 +176,11 @@ public class VentanaLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEntrarActionPerformed
-        cedula1 = txtCedula.getText();
+        String cedula1 = txtCedula.getText();
         String contraseña1 = new String(txtContraseña.getPassword());
         verificarInicioSesion(cedula1, contraseña1);
     }//GEN-LAST:event_botonEntrarActionPerformed
+    //Se hace un método para verificar los datos
     private void verificarInicioSesion(String cedula, String contraseña) {
         String archivo = cedula + ".txt";
         File archivoALeer = new File(crearblock + archivo);
@@ -198,13 +198,11 @@ public class VentanaLogin extends javax.swing.JFrame {
                 }
                 lector.close();
                 if (contraseñaAlmacenada != null && contraseñaAlmacenada.equals(contraseña)) {
-
                     // La contraseña coincide, inicio de sesión exitoso
                     Ventana ventana = new Ventana();
-                    ventana.setCedula(cedula1);
                     ventana.setVisible(true);
-                    this.setVisible(false); // Cierra la ventana actual
-
+                    // Cierra la ventana actual
+                    this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(rootPane, "La contraseña es incorrecta. Inténtelo de nuevo.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
                 }
@@ -219,6 +217,7 @@ public class VentanaLogin extends javax.swing.JFrame {
     private void RegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarseActionPerformed
         VentanaRegistroUsuario ventana = new VentanaRegistroUsuario(this, true);
         ventana.setLocationRelativeTo(this);
+
         ventana.setVisible(true);
     }//GEN-LAST:event_RegistrarseActionPerformed
 
