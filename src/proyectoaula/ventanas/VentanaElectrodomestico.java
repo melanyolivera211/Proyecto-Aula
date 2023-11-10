@@ -27,7 +27,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
         String archivoUsuario = cedula + ".txt";
         File rutaArchivo = new File(crearblock + archivoUsuario);
         if (rutaArchivo.exists()) {
-            String nserie = nroserieTXT.getText();
+            String nserie = nroserieTXT.getText()+".txt";
             String electrodomesticoBD = rutaelectrodomestico + elec + cedula + "_electrodomesticos" + elec;
             File crearelec = new File(electrodomesticoBD);
             File CAelectrodomestico = new File(electrodomesticoBD + nserie);
