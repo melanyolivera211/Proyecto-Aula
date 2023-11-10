@@ -39,10 +39,8 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
         String archivo = nroserieTXT.getText() + ".txt";
         File crearubi = new File(crearblock);
         File creararchivo = new File(crearblock + archivo);
-
         if (nroserieTXT.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "este electrodomestico no existe");
-
         } else {
             try {
                 if (creararchivo.exists()) {
@@ -61,8 +59,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
                 }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(rootPane, "no se a podido ingresar el electrodomestico");
-
-            }
+        }
         }
 
     }
@@ -235,7 +232,6 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
     private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
         agregar();
         crearElectrodomesticos();
-
         electrodomesticoTXT.setText("");
         nroserieTXT.setText("");
         marcaTXT.setText("");
