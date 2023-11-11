@@ -27,7 +27,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
         String archivoUsuario = cedula + ".txt";
         File rutaArchivo = new File(crearblock + archivoUsuario);
         if (rutaArchivo.exists()) {
-            String nserie = nroserieTXT.getText()+".txt";
+            String nserie = nroserieTXT.getText() + ".txt";
             String electrodomesticoBD = rutaelectrodomestico + elec + cedula + "_electrodomesticos" + elec;
             File crearelec = new File(electrodomesticoBD);
             File CAelectrodomestico = new File(electrodomesticoBD + nserie);
@@ -199,6 +199,29 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
             tablaelectrodomestico.setModel(modelo);
         } else {
             JOptionPane.showMessageDialog(rootPane, "No hay electrodomésticos registrados.");
+        }
+    }
+
+    private void eliminarElectrodomestico() {
+        String cedula = txtCedula.getText();
+        String archivoUsuario = cedula + ".txt";
+        File rutaArchivo = new File(crearblock + archivoUsuario);
+        if (rutaArchivo.exists()) {
+            String nserie = nroserieTXT.getText() + ".txt";
+            String electrodomesticoBD = rutaelectrodomestico + elec + cedula + "_electrodomesticos" + elec;
+            File BAelectrodomestico = new File(electrodomesticoBD + nserie);
+            if (BAelectrodomestico.exists()) {
+                try {
+                    if (BAelectrodomestico.delete()) {
+                        JOptionPane.showMessageDialog(rootPane, "el electrodomestico a sido eliminado con exito");
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "el electrodomestico no se a podido eliminar");
+                    }
+                } catch (SecurityException e) {
+                    JOptionPane.showMessageDialog(rootPane, "no se a podido eliminar el electrodomestico");
+                }
+
+            }
         }
     }
 
@@ -442,6 +465,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "el espacio para ingresar la cedula o el nro.serie esta/n vacios favor rellenar ambos para buscar el electrodomestico");
         } else {
             editarelectrodomestico();
+
             electrodomesticoTXT.setText("");
             nroserieTXT.setText("");
             marcaTXT.setText("");
@@ -449,7 +473,16 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
     }//GEN-LAST:event_botonEditarActionPerformed
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
-
+        String serie = nroserieTXT.getText();
+        String cedula = txtCedula.getText();
+        if (serie.isEmpty() || serie.isBlank() || cedula.isEmpty() || cedula.isBlank()) {
+            JOptionPane.showMessageDialog(rootPane, "el espacio para ingresar la cedula o el nro.serie esta/n vacios favor rellenar ambos para buscar el electrodomestico");
+        } else {
+            eliminarElectrodomestico();
+            electrodomesticoTXT.setText("");
+            nroserieTXT.setText("");
+            marcaTXT.setText("");
+        }
     }//GEN-LAST:event_botonEliminarActionPerformed
 
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
