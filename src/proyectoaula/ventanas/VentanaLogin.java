@@ -1,15 +1,20 @@
 package proyectoaula.ventanas;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JOptionPane;
+
 public class VentanaLogin extends javax.swing.JFrame {
-    String usu= File.separator;
+
+    String usu = File.separator;
     String crearblock = System.getProperty("user.dir") + usu + "UsuariosBD" + usu;
+
     public VentanaLogin() {
         initComponents();
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -171,59 +176,52 @@ public class VentanaLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEntrarActionPerformed
-    String cedula1 = txtCedula.getText();
-    String contraseña1 = new String(txtContraseña.getPassword());
-    verificarInicioSesion(cedula1, contraseña1);
+        String cedula1 = txtCedula.getText();
+        String contraseña1 = new String(txtContraseña.getPassword());
+        verificarInicioSesion(cedula1, contraseña1);
     }//GEN-LAST:event_botonEntrarActionPerformed
     //Se hace un método para verificar los datos
     private void verificarInicioSesion(String cedula, String contraseña) {
-    String archivo = cedula + ".txt";
-    File archivoALeer = new File(crearblock + archivo);
-    if (archivoALeer.exists()) {
-        try {
-            BufferedReader lector = new BufferedReader(new FileReader(archivoALeer.getAbsolutePath()));
-            String linea;
-            String contraseñaAlmacenada = null;
+        String archivo = cedula + ".txt";
+        File archivoALeer = new File(crearblock + archivo);
+        if (archivoALeer.exists()) {
+            try {
+                BufferedReader lector = new BufferedReader(new FileReader(archivoALeer.getAbsolutePath()));
+                String linea;
+                String contraseñaAlmacenada = null;
 
-            while ((linea = lector.readLine()) != null) {
-                if (linea.startsWith("Contraseña:")) {
-                    contraseñaAlmacenada = linea.substring(12);
-                    break;
+                while ((linea = lector.readLine()) != null) {
+                    if (linea.startsWith("Contraseña:")) {
+                        contraseñaAlmacenada = linea.substring(12);
+                        break;
+                    }
                 }
+                lector.close();
+                if (contraseñaAlmacenada != null && contraseñaAlmacenada.equals(contraseña)) {
+                    // La contraseña coincide, inicio de sesión exitoso
+                    Ventana ventana = new Ventana();
+                    ventana.setVisible(true);
+                    // Cierra la ventana actual
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "La contraseña es incorrecta. Inténtelo de nuevo.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Error al leer el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            lector.close();
-            if (contraseñaAlmacenada != null && contraseñaAlmacenada.equals(contraseña)) {
-                // La contraseña coincide, inicio de sesión exitoso
-                Ventana ventana = new Ventana();
-                ventana.setVisible(true);
-                // Cierra la ventana actual
-                this.dispose(); 
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "La contraseña es incorrecta. Inténtelo de nuevo.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error al leer el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "El usuario no existe. Regístrese primero.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
         }
-    } else {
-        JOptionPane.showMessageDialog(rootPane, "El usuario no existe. Regístrese primero.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
-      } 
     }
 
     private void RegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarseActionPerformed
-        VentanaRegistroUsuario ventana = new VentanaRegistroUsuario(this,true);
+        VentanaRegistroUsuario ventana = new VentanaRegistroUsuario(this, true);
         ventana.setLocationRelativeTo(this);
-        
+
         ventana.setVisible(true);
     }//GEN-LAST:event_RegistrarseActionPerformed
 
     public static void main(String[] args) {
-        
-        
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -240,10 +238,6 @@ public class VentanaLogin extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(VentanaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new VentanaLogin().setVisible(true);
