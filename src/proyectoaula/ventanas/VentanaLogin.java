@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JOptionPane;
+import proyectoaula.objects.Usuario;
 
 public class VentanaLogin extends javax.swing.JFrame {
 
@@ -178,41 +179,53 @@ public class VentanaLogin extends javax.swing.JFrame {
     private void botonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEntrarActionPerformed
         String cedula1 = txtCedula.getText();
         String contraseña1 = new String(txtContraseña.getPassword());
-        verificarInicioSesion(cedula1, contraseña1);
+//        verificarInicioSesion(cedula1, contraseña1);
+        realizarLogin(cedula1, contraseña1);
     }//GEN-LAST:event_botonEntrarActionPerformed
-    //Se hace un método para verificar los datos
-    private void verificarInicioSesion(String cedula, String contraseña) {
-        String archivo = cedula + ".txt";
-        File archivoALeer = new File(crearblock + archivo);
-        if (archivoALeer.exists()) {
-            try {
-                BufferedReader lector = new BufferedReader(new FileReader(archivoALeer.getAbsolutePath()));
-                String linea;
-                String contraseñaAlmacenada = null;
+    private Usuario realizarLogin(String cedula, String contraseña) {
+    String archivo = cedula + ".txt";
+    File archivoALeer = new File(crearblock + archivo);
 
-                while ((linea = lector.readLine()) != null) {
-                    if (linea.startsWith("Contraseña:")) {
-                        contraseñaAlmacenada = linea.substring(12);
-                        break;
-                    }
+    if (archivoALeer.exists()) {
+        try {
+            BufferedReader lector = new BufferedReader(new FileReader(archivoALeer.getAbsolutePath()));
+            String linea;
+
+            // Crear un objeto Usuario y cargar datos desde el archivo
+            Usuario usuario = new Usuario();
+            while ((linea = lector.readLine()) != null) {
+                if (linea.startsWith("Cedula:")) {
+                    usuario.setNroDocumento(linea.substring(8).trim());
+                } else if (linea.startsWith("Nombre:")) {
+                    usuario.setNombre(linea.substring(8).trim());
+                } else if (linea.startsWith("Apellido:")) {
+                    usuario.setApellido(linea.substring(9).trim());
+                } else if (linea.startsWith("Télefono:")) {
+                    usuario.setTelefono(linea.substring(10).trim());
+                } else if (linea.startsWith("Email:")) {
+                    usuario.setEmail(linea.substring(7).trim());
+                } else if (linea.startsWith("Contraseña:")) {
+                    usuario.setContraseña(linea.substring(12).trim());
                 }
-                lector.close();
-                if (contraseñaAlmacenada != null && contraseñaAlmacenada.equals(contraseña)) {
-                    // La contraseña coincide, inicio de sesión exitoso
-                    Ventana ventana = new Ventana();
-                    ventana.setVisible(true);
-                    // Cierra la ventana actual
-                    this.dispose();
-                } else {
-                    JOptionPane.showMessageDialog(rootPane, "La contraseña es incorrecta. Inténtelo de nuevo.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Error al leer el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "El usuario no existe. Regístrese primero.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
+
+            lector.close();
+
+            if (usuario != null && usuario.validarContraseña(contraseña)) {
+        JOptionPane.showMessageDialog(rootPane, "Inicio de sesión exitoso.");
+        Ventana nuevaVentana = new Ventana();
+        nuevaVentana.setVisible(true);
+     } else {
+                JOptionPane.showMessageDialog(rootPane, "Contraseña incorrecta.", "Error de Inicio de Sesión", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al leer el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    } else {
+        JOptionPane.showMessageDialog(rootPane, "Usuario no encontrado.", "Error de Inicio de Sesión", JOptionPane.ERROR_MESSAGE);
     }
+    return null; // Usuario no encontrado o contraseña incorrecta
+}
 
     private void RegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarseActionPerformed
         VentanaRegistroUsuario ventana = new VentanaRegistroUsuario(this, true);

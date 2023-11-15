@@ -54,4 +54,7 @@ public class Usuario {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+    public boolean validarContraseña(String contraseña) {
+        return this.contraseña.equals(contraseña);
+    }
 }
