@@ -1,0 +1,4 @@
+Electrodomestico: 12
+nro.serie: 12
+Marca: 
+

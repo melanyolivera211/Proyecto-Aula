@@ -19,7 +19,7 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
-private void crearUsuarios() {
+private void crearUsuarios(Usuario usuario) {
     String archivo = txtCedula.getText() + ".txt";
     File crearubi = new File(crearblock);
     File creararchivo = new File(crearblock + archivo);
@@ -32,10 +32,7 @@ private void crearUsuarios() {
                 JOptionPane.showMessageDialog(rootPane, "Este usuario ya está registrado.");
             } else {
                 crearubi.mkdirs();
-                creararchivo.createNewFile();
-
-            
-                Usuario usuario = new Usuario();
+                creararchivo.createNewFile();     
                 usuario.setNroDocumento(txtCedula.getText());
                 usuario.setNombre(txtNombre.getText());
                 usuario.setApellido(txtApellido.getText());
@@ -110,25 +107,24 @@ private Usuario obtenerUsuarioDesdeArchivo(String cedula) {
 
     return usuario;
 }
+
 private void editarUsuario() {
     String cedula = txtCedula.getText();
     String archivo = cedula + ".txt";
     File archivoAEditar = new File(crearblock + archivo);
 
     if (archivoAEditar.exists()) {
-        // Cargar los datos del usuario actual en los campos de texto
-
-        // Permitir al usuario editar los campos
-        int resultado = JOptionPane.showConfirmDialog(rootPane, "¿Desea editar este usuario?", "Editar Usuario", JOptionPane.YES_NO_OPTION);
-        
-        if (resultado == JOptionPane.YES_OPTION) {
+        // Verificar que todos los campos no estén vacíos
+        if (camposNoVacios()) {
             // Obtener los nuevos valores de los campos de texto
             String nuevoNombre = txtNombre.getText();
             String nuevoApellido = txtApellido.getText();
             String nuevoTelefono = txtTelefono.getText();
             String nuevoEmail = txtEmail.getText();
             String nuevaContraseña = txtContraseña.getText();
-
+        int resultado = JOptionPane.showConfirmDialog(rootPane, "¿Desea editar este usuario?", "Editar Usuario", JOptionPane.YES_NO_OPTION);
+        
+        if (resultado == JOptionPane.YES_OPTION) {
             try {
                 // Guardar los cambios en el archivo
                 BufferedWriter escritor = new BufferedWriter(new FileWriter(archivoAEditar.getAbsolutePath()));
@@ -144,9 +140,10 @@ private void editarUsuario() {
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Error al editar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
             }
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Todos los campos deben estar completos.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    } else {
-        JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
+    }
     }
 }
 private void cargarDatosUsuario() {
@@ -183,6 +180,14 @@ private void eliminarUsuario() {
     } else {
         JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
     }
+}
+private boolean camposNoVacios() {
+    // Verificar que todos los campos no estén vacíos
+    return !txtNombre.getText().isEmpty() &&
+           !txtApellido.getText().isEmpty() &&
+           !txtTelefono.getText().isEmpty() &&
+           !txtEmail.getText().isEmpty() &&
+           !txtContraseña.getText().isEmpty();
 }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -446,25 +451,30 @@ private void eliminarUsuario() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
-        String nombre = txtNombre.getText();
-        String apellido = txtApellido.getText();
-        String cedula = txtCedula.getText();
-        String email = txtEmail.getText();
-        String telefono = txtTelefono.getText();
-        String contraseña = txtContraseña.getText();
-
-        if (nombre.isEmpty() || nombre.isBlank() || apellido.isEmpty() || apellido.isBlank() || cedula.isEmpty() || cedula.isBlank() || telefono.isEmpty() || telefono.isBlank()
-                || email.isEmpty() || email.isEmpty() || contraseña.isEmpty() || contraseña.isBlank()) {
+        String nombre1 = txtNombre.getText();
+        String apellido1 = txtApellido.getText();
+        String cedula1 = txtCedula.getText();
+        String email1 = txtEmail.getText();
+        String telefono1 = txtTelefono.getText();
+        String contraseña1 = txtContraseña.getText();
+        Usuario usuario = new Usuario(); 
+        usuario.nroDocumento = cedula1;
+        usuario.nombre = nombre1;
+        usuario.apellido = apellido1;
+        usuario.email = email1;
+        usuario.telefono = telefono1;
+        if (nombre1.isEmpty() || nombre1.isBlank() || apellido1.isEmpty() || apellido1.isBlank() || cedula1.isEmpty() || cedula1.isBlank() || telefono1.isEmpty() || telefono1.isBlank()
+                || email1.isEmpty() || email1.isEmpty() || contraseña1.isEmpty() || contraseña1.isBlank()) {
             JOptionPane.showMessageDialog(this, "Rellene todos los campos para continuar.");
         }
-        if (!cedula.matches("\\d+")) {
+        if (!cedula1.matches("\\d+")) {
             JOptionPane.showMessageDialog(rootPane, "El número de cédula debe contener solo números enteros.", "Error de formato", JOptionPane.ERROR_MESSAGE);
             return; // Sale del método si el formato es incorrecto
         }
-        if (!telefono.matches("\\d+")) {
+        if (!telefono1.matches("\\d+")) {
             JOptionPane.showMessageDialog(rootPane, "El número de teléfono debe contener solo números enteros.", "Error de formato", JOptionPane.ERROR_MESSAGE);
         } else {
-            crearUsuarios();
+            crearUsuarios(usuario);
             limpiarCampos();
         }
     }//GEN-LAST:event_botonGuardarActionPerformed
@@ -474,8 +484,32 @@ private void eliminarUsuario() {
     }//GEN-LAST:event_botonBuscarActionPerformed
 
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
+        String nombre1 = txtNombre.getText();
+        String apellido1 = txtApellido.getText();
+        String cedula1 = txtCedula.getText();
+        String email1 = txtEmail.getText();
+        String telefono1 = txtTelefono.getText();
+        String contraseña1 = txtContraseña.getText();
+        Usuario usuario = new Usuario(); 
+        usuario.nroDocumento = cedula1;
+        usuario.nombre = nombre1;
+        usuario.apellido = apellido1;
+        usuario.email = email1;
+        usuario.telefono = telefono1;
+        if (nombre1.isEmpty() || nombre1.isBlank() || apellido1.isEmpty() || apellido1.isBlank() || cedula1.isEmpty() || cedula1.isBlank() || telefono1.isEmpty() || telefono1.isBlank()
+                || email1.isEmpty() || email1.isEmpty() || contraseña1.isEmpty() || contraseña1.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Rellene todos los campos para continuar.");
+        }
+        if (!cedula1.matches("\\d+")) {
+            JOptionPane.showMessageDialog(rootPane, "El número de cédula debe contener solo números enteros.", "Error de formato", JOptionPane.ERROR_MESSAGE);
+            return; // Sale del método si el formato es incorrecto
+        }
+        if (!telefono1.matches("\\d+")) {
+            JOptionPane.showMessageDialog(rootPane, "El número de teléfono debe contener solo números enteros.", "Error de formato", JOptionPane.ERROR_MESSAGE);
+        } else {
         editarUsuario();
         limpiarCampos();
+        }
     }//GEN-LAST:event_botonEditarActionPerformed
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed

@@ -1,6 +1,0 @@
-Cedula: 12345
-Nombre: Melany
-Apellido: Olivera
-Télefono: 1245
-Email: melany@gmail.com
-Contraseña: 1425

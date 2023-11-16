@@ -180,9 +180,9 @@ public class VentanaLogin extends javax.swing.JFrame {
         String cedula1 = txtCedula.getText();
         String contraseña1 = new String(txtContraseña.getPassword());
 //        verificarInicioSesion(cedula1, contraseña1);
-        realizarLogin(cedula1, contraseña1);
+        verificarInicioSesion(cedula1, contraseña1);
     }//GEN-LAST:event_botonEntrarActionPerformed
-    private Usuario realizarLogin(String cedula, String contraseña) {
+    private Usuario verificarInicioSesion(String cedula, String contraseña) {
     String archivo = cedula + ".txt";
     File archivoALeer = new File(crearblock + archivo);
 
