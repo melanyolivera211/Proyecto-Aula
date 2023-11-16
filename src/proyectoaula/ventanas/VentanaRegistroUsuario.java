@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import javax.swing.JOptionPane;
+import proyectoaula.objects.Usuario;
 
 public class VentanaRegistroUsuario extends javax.swing.JDialog {
 
@@ -18,44 +19,48 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
+private void crearUsuarios(Usuario usuario) {
+    String archivo = txtCedula.getText() + ".txt";
+    File crearubi = new File(crearblock);
+    File creararchivo = new File(crearblock + archivo);
 
-    private void crearUsuarios() {
-        String archivo = txtCedula.getText() + ".txt";
-        File crearubi = new File(crearblock);
-        File creararchivo = new File(crearblock + archivo);
+    if (txtCedula.getText().equals("")) {
+        JOptionPane.showMessageDialog(rootPane, "Este usuario no existe.");
+    } else {
+        try {
+            if (creararchivo.exists()) {
+                JOptionPane.showMessageDialog(rootPane, "Este usuario ya está registrado.");
+            } else {
+                crearubi.mkdirs();
+                creararchivo.createNewFile();     
+                usuario.setNroDocumento(txtCedula.getText());
+                usuario.setNombre(txtNombre.getText());
+                usuario.setApellido(txtApellido.getText());
+                usuario.setTelefono(txtTelefono.getText());
+                usuario.setEmail(txtEmail.getText());
+                usuario.setContraseña(txtContraseña.getText());
 
-        if (txtCedula.getText().equals("")) {
-            JOptionPane.showMessageDialog(rootPane, "Este usuario no existe.");
+               
+                Writer escritorDeArchivo = new FileWriter(creararchivo.getAbsolutePath());
+                String datosUsuarios = "Cedula: " + usuario.getNroDocumento() + "\n";
+                datosUsuarios += "Nombre: " + usuario.getNombre() + "\n";
+                datosUsuarios += "Apellido: " + usuario.getApellido() + "\n";
+                datosUsuarios += "Télefono: " + usuario.getTelefono() + "\n";
+                datosUsuarios += "Email: " + usuario.getEmail() + "\n";
+                datosUsuarios += "Contraseña: " + usuario.getContraseña() + "\n";
+                datosUsuarios += "\n";
 
-        } else {
-            try {
-                if (creararchivo.exists()) {
-                    JOptionPane.showMessageDialog(rootPane, "Este usuario ya está registrado.");
-                } else {
-                    crearubi.mkdirs();
-                    creararchivo.createNewFile();
-                    Writer escritorDeArchivo = new FileWriter(creararchivo.getAbsolutePath());
-                    String datosUsuarios = "Cedula: " + txtCedula.getText() + "\n";
-                    datosUsuarios += "Nombre: " + txtNombre.getText() + "\n";
-                    datosUsuarios += "Apellido: " + txtApellido.getText() + "\n";
-                    datosUsuarios += "Télefono: " + txtTelefono.getText() + "\n";
-                    datosUsuarios += "Email: " + txtEmail.getText() + "\n";
-                    datosUsuarios += "Contraseña: " + txtContraseña.getText() + "\n";
-                    datosUsuarios += "\n";
+                escritorDeArchivo.write(datosUsuarios);
+                escritorDeArchivo.flush();
+                escritorDeArchivo.close();
 
-                    escritorDeArchivo.write(datosUsuarios);
-                    escritorDeArchivo.flush();
-                    escritorDeArchivo.close();
-                    JOptionPane.showMessageDialog(rootPane, "¡El usuario ha sido registrado con éxito!");
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "No se pudo registrar el usuario.", "Error", JOptionPane.ERROR_MESSAGE);
-
+                JOptionPane.showMessageDialog(rootPane, "¡El usuario ha sido registrado con éxito!");
             }
-
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No se pudo registrar el usuario.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-
     }
+}
     // método para limpiar campos
 
     public void limpiarCampos() {
@@ -66,7 +71,124 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         txtCedula.setText("");
         txtContraseña.setText("");
     }
+private Usuario obtenerUsuarioDesdeArchivo(String cedula) {
+    String archivo = cedula + ".txt";
+    File archivoALeer = new File(crearblock + archivo);
+    Usuario usuario = new Usuario();
 
+    if (archivoALeer.exists()) {
+        try {
+            BufferedReader lector = new BufferedReader(new FileReader(archivoALeer.getAbsolutePath()));
+            String linea;
+
+            while ((linea = lector.readLine()) != null) {
+                if (linea.startsWith("Cedula:")) {
+                    usuario.setNroDocumento(linea.substring(8).trim());
+                } else if (linea.startsWith("Nombre:")) {
+                    usuario.setNombre(linea.substring(8).trim());
+                } else if (linea.startsWith("Apellido:")) {
+                    usuario.setApellido(linea.substring(9).trim());
+                } else if (linea.startsWith("Télefono:")) {
+                    usuario.setTelefono(linea.substring(10).trim());
+                } else if (linea.startsWith("Email:")) {
+                    usuario.setEmail(linea.substring(7).trim());
+                } else if (linea.startsWith("Contraseña:")) {
+                    usuario.setContraseña(linea.substring(12).trim());
+                }
+            }
+
+            lector.close();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al leer el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }else {
+            JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    return usuario;
+}
+
+private void editarUsuario() {
+    String cedula = txtCedula.getText();
+    String archivo = cedula + ".txt";
+    File archivoAEditar = new File(crearblock + archivo);
+
+    if (archivoAEditar.exists()) {
+        // Verificar que todos los campos no estén vacíos
+        if (camposNoVacios()) {
+            // Obtener los nuevos valores de los campos de texto
+            String nuevoNombre = txtNombre.getText();
+            String nuevoApellido = txtApellido.getText();
+            String nuevoTelefono = txtTelefono.getText();
+            String nuevoEmail = txtEmail.getText();
+            String nuevaContraseña = txtContraseña.getText();
+        int resultado = JOptionPane.showConfirmDialog(rootPane, "¿Desea editar este usuario?", "Editar Usuario", JOptionPane.YES_NO_OPTION);
+        
+        if (resultado == JOptionPane.YES_OPTION) {
+            try {
+                // Guardar los cambios en el archivo
+                BufferedWriter escritor = new BufferedWriter(new FileWriter(archivoAEditar.getAbsolutePath()));
+                escritor.write("Cedula: " + cedula + "\n");
+                escritor.write("Nombre: " + nuevoNombre + "\n");
+                escritor.write("Apellido: " + nuevoApellido + "\n");
+                escritor.write("Télefono: " + nuevoTelefono + "\n");
+                escritor.write("Email: " + nuevoEmail + "\n");
+                escritor.write("Contraseña: " + nuevaContraseña + "\n");
+                escritor.close();
+
+                JOptionPane.showMessageDialog(rootPane, "Usuario editado exitosamente.");
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Error al editar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Todos los campos deben estar completos.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    }
+}
+private void cargarDatosUsuario() {
+    String cedula1 = txtCedula.getText();
+    Usuario usuario = obtenerUsuarioDesdeArchivo(cedula1);
+
+    if (!usuario.getNroDocumento().isEmpty()) {
+        // Establecer los valores en los elementos de la interfaz de usuario (asumiendo que tienes esos elementos)
+        txtNombre.setText(usuario.getNombre());
+        txtApellido.setText(usuario.getApellido());
+        txtTelefono.setText(usuario.getTelefono());
+        txtEmail.setText(usuario.getEmail());
+        txtContraseña.setText(usuario.getContraseña());
+    } else {
+        JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
+    }
+}
+private void eliminarUsuario() {
+    String cedula = txtCedula.getText();
+    String archivo = cedula + ".txt";
+    File archivoAEliminar = new File(crearblock + archivo);
+
+    if (archivoAEliminar.exists()) {
+        int resultado = JOptionPane.showConfirmDialog(rootPane, "¿Desea eliminar este usuario?", "Eliminar Usuario", JOptionPane.YES_NO_OPTION);
+        
+        if (resultado == JOptionPane.YES_OPTION) {
+            if (archivoAEliminar.delete()) {
+                JOptionPane.showMessageDialog(rootPane, "Usuario eliminado exitosamente.");
+                limpiarCampos(); // Puedes implementar este método para limpiar los campos después de eliminar el usuario.
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al eliminar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    } else {
+        JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
+    }
+}
+private boolean camposNoVacios() {
+    // Verificar que todos los campos no estén vacíos
+    return !txtNombre.getText().isEmpty() &&
+           !txtApellido.getText().isEmpty() &&
+           !txtTelefono.getText().isEmpty() &&
+           !txtEmail.getText().isEmpty() &&
+           !txtContraseña.getText().isEmpty();
+}
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -329,154 +451,80 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
-        String nombre = txtNombre.getText();
-        String apellido = txtApellido.getText();
-        String cedula = txtCedula.getText();
-        String email = txtEmail.getText();
-        String telefono = txtTelefono.getText();
-        String contraseña = txtContraseña.getText();
-
-        if (nombre.isEmpty() || nombre.isBlank() || apellido.isEmpty() || apellido.isBlank() || cedula.isEmpty() || cedula.isBlank() || telefono.isEmpty() || telefono.isBlank()
-                || email.isEmpty() || email.isEmpty() || contraseña.isEmpty() || contraseña.isBlank()) {
+        String nombre1 = txtNombre.getText();
+        String apellido1 = txtApellido.getText();
+        String cedula1 = txtCedula.getText();
+        String email1 = txtEmail.getText();
+        String telefono1 = txtTelefono.getText();
+        String contraseña1 = txtContraseña.getText();
+        Usuario usuario = new Usuario(); 
+        usuario.nroDocumento = cedula1;
+        usuario.nombre = nombre1;
+        usuario.apellido = apellido1;
+        usuario.email = email1;
+        usuario.telefono = telefono1;
+        if (nombre1.isEmpty() || nombre1.isBlank() || apellido1.isEmpty() || apellido1.isBlank() || cedula1.isEmpty() || cedula1.isBlank() || telefono1.isEmpty() || telefono1.isBlank()
+                || email1.isEmpty() || email1.isEmpty() || contraseña1.isEmpty() || contraseña1.isBlank()) {
             JOptionPane.showMessageDialog(this, "Rellene todos los campos para continuar.");
         }
-        if (!cedula.matches("\\d+")) {
+        if (!cedula1.matches("\\d+")) {
             JOptionPane.showMessageDialog(rootPane, "El número de cédula debe contener solo números enteros.", "Error de formato", JOptionPane.ERROR_MESSAGE);
             return; // Sale del método si el formato es incorrecto
         }
-        if (!telefono.matches("\\d+")) {
+        if (!telefono1.matches("\\d+")) {
             JOptionPane.showMessageDialog(rootPane, "El número de teléfono debe contener solo números enteros.", "Error de formato", JOptionPane.ERROR_MESSAGE);
-            return; // Sale del método si el formato es incorrecto
         } else {
-            crearUsuarios();
+            crearUsuarios(usuario);
             limpiarCampos();
         }
     }//GEN-LAST:event_botonGuardarActionPerformed
-
+    
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
-        mostrarDatosAlmacenados();
+        cargarDatosUsuario();
     }//GEN-LAST:event_botonBuscarActionPerformed
-    private void mostrarDatosAlmacenados() {
-        String archivo = txtCedula.getText() + ".txt";
-        File archivoALeer = new File(crearblock + archivo);
-        if (archivoALeer.exists()) {
-            try {
-                BufferedReader lector = new BufferedReader(new FileReader(archivoALeer.getAbsolutePath()));
-                String linea;
-                String datos = "";
 
-                while ((linea = lector.readLine()) != null) {
-                    datos += linea + "\n";
-                    if (linea.startsWith("Nombre:")) {
-                        txtNombre.setText(linea.substring(8));
-                    } else if (linea.startsWith("Apellido:")) {
-                        txtApellido.setText(linea.substring(9));
-                    } else if (linea.startsWith("Télefono:")) {
-                        txtTelefono.setText(linea.substring(10));
-                    } else if (linea.startsWith("Email:")) {
-                        txtEmail.setText(linea.substring(7));
-                    } else if (linea.startsWith("Contraseña:")) {
-                        txtContraseña.setText(linea.substring(12));
-                    }
-                }
-                lector.close();
-
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Error al leer el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
-        editarDatosAlmacenados();
-        limpiarCampos();
-    }//GEN-LAST:event_botonEditarActionPerformed
-    private void editarDatosAlmacenados() {
-        String archivo = txtCedula.getText() + ".txt";
-        File archivoAEditar = new File(crearblock + archivo);
-        if (archivoAEditar.exists()) {
-            try {
-                BufferedReader lector = new BufferedReader(new FileReader(archivoAEditar.getAbsolutePath()));
-                String linea;
-                StringBuilder datos = new StringBuilder();
-
-                while ((linea = lector.readLine()) != null) {
-                    if (linea.startsWith("Nombre:") && !txtNombre.getText().equals("")) {
-                        datos.append("Nombre: ").append(txtNombre.getText()).append("\n");
-                    } else if (linea.startsWith("Apellido:") && !txtApellido.getText().equals("")) {
-                        datos.append("Apellido: ").append(txtApellido.getText()).append("\n");
-                    } else if (linea.startsWith("Télefono:") && !txtTelefono.getText().equals("")) {
-                        datos.append("Télefono: ").append(txtTelefono.getText()).append("\n");
-                    } else if (linea.startsWith("Email:") && !txtEmail.getText().equals("")) {
-                        datos.append("Email: ").append(txtEmail.getText()).append("\n");
-                    } else if (linea.startsWith("Contraseña:") && !txtContraseña.getText().equals("")) {
-                        datos.append("Contraseña: ").append(txtContraseña.getText()).append("\n");
-                    } else {
-                        datos.append(linea).append("\n");
-                    }
-                }
-                lector.close();
-
-                BufferedWriter escritor = new BufferedWriter(new FileWriter(archivoAEditar.getAbsolutePath()));
-                escritor.write(datos.toString());
-                escritor.close();
-
-                JOptionPane.showMessageDialog(rootPane, "Los datos se han actualizado correctamente.", "Edición Exitosa", JOptionPane.INFORMATION_MESSAGE);
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Error al editar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
+        String nombre1 = txtNombre.getText();
+        String apellido1 = txtApellido.getText();
+        String cedula1 = txtCedula.getText();
+        String email1 = txtEmail.getText();
+        String telefono1 = txtTelefono.getText();
+        String contraseña1 = txtContraseña.getText();
+        Usuario usuario = new Usuario(); 
+        usuario.nroDocumento = cedula1;
+        usuario.nombre = nombre1;
+        usuario.apellido = apellido1;
+        usuario.email = email1;
+        usuario.telefono = telefono1;
+        if (nombre1.isEmpty() || nombre1.isBlank() || apellido1.isEmpty() || apellido1.isBlank() || cedula1.isEmpty() || cedula1.isBlank() || telefono1.isEmpty() || telefono1.isBlank()
+                || email1.isEmpty() || email1.isEmpty() || contraseña1.isEmpty() || contraseña1.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Rellene todos los campos para continuar.");
         }
-    }
+        if (!cedula1.matches("\\d+")) {
+            JOptionPane.showMessageDialog(rootPane, "El número de cédula debe contener solo números enteros.", "Error de formato", JOptionPane.ERROR_MESSAGE);
+            return; // Sale del método si el formato es incorrecto
+        }
+        if (!telefono1.matches("\\d+")) {
+            JOptionPane.showMessageDialog(rootPane, "El número de teléfono debe contener solo números enteros.", "Error de formato", JOptionPane.ERROR_MESSAGE);
+        } else {
+        editarUsuario();
+        limpiarCampos();
+        }
+    }//GEN-LAST:event_botonEditarActionPerformed
+
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
-        eliminarDatosAlmacenados();
+        eliminarUsuario();
         limpiarCampos();
     }//GEN-LAST:event_botonEliminarActionPerformed
 
     private void RegresarVentanaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarVentanaActionPerformed
         VentanaLogin abc = new VentanaLogin();
         abc.setVisible(true);
-        this.dispose();
+        this.setVisible(false);
     }//GEN-LAST:event_RegresarVentanaActionPerformed
-    private void eliminarDatosAlmacenados() {
-        String archivo = txtCedula.getText() + ".txt";
-        File archivoAEliminar = new File(crearblock + archivo);
 
-        if (archivoAEliminar.exists()) {
-            try {
-                if (archivoAEliminar.delete()) {
-                    JOptionPane.showMessageDialog(rootPane, "Los datos se han eliminado correctamente.", "Eliminación Exitosa", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(rootPane, "No se pudo eliminar el archivo.", "Error al Eliminar", JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (SecurityException e) {
-                JOptionPane.showMessageDialog(null, "Error de permisos al intentar eliminar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
 
     public static void main(String args[]) {
-
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VentanaRegistroUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VentanaRegistroUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VentanaRegistroUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VentanaRegistroUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
         //</editor-fold>
         //</editor-fold>
 
