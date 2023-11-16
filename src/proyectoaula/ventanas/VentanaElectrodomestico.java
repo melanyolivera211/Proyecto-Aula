@@ -41,7 +41,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
                         CAelectrodomestico.createNewFile();
                         Writer escritorDeArchivo = new FileWriter(CAelectrodomestico.getAbsolutePath());
                         String datosElectrodomestico = "Electrodomestico: " + electrodomestico.nombreE + "\n";
-                        datosElectrodomestico += "nro.serie: " + electrodomestico.nroSerie + "\n";
+                        datosElectrodomestico += "Nro.serie: " + electrodomestico.nroSerie + "\n";
                         datosElectrodomestico += "Marca: " + electrodomestico.marca + "\n";
                         datosElectrodomestico += "\n";
                         escritorDeArchivo.write(datosElectrodomestico);
@@ -164,7 +164,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
                     while ((linea = lector.readLine()) != null) {
                         if (linea.startsWith("Electrodomestico:")) {
                             electrodomestico = linea.substring(18);
-                        } else if (linea.startsWith("nro.serie:")) {
+                        } else if (linea.startsWith("Nro.serie:")) {
                             numeroSerie = linea.substring(11);
                         } else if (linea.startsWith("Marca:")) {
                             marca = linea.substring(7);
@@ -485,17 +485,22 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
     }//GEN-LAST:event_botonBuscarActionPerformed
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
-        String nombreElectrodomestico = txtElectrodomestico.getText(); 
-        String nroSerie = txtElectrodomestico.getText(); 
-        String marca = txtElectrodomestico.getText(); 
-        Electrodomestico electrodomestico = new Electrodomestico();
-         electrodomestico.nombreE = nombreElectrodomestico;
-         electrodomestico.nroSerie = nroSerie;
-         electrodomestico.marca = marca;
-         if(nombreElectrodomestico.isEmpty()||nombreElectrodomestico.isBlank()||nroSerie.isEmpty()||nroSerie.isBlank()||marca.isEmpty()||marca.isBlank()){
-             JOptionPane.showMessageDialog(null,"Rellene todos los campos antes de continuar","Error", JOptionPane.INFORMATION_MESSAGE);
-         }
-        crearElectrodomestico(electrodomestico);
+       String nombreElectrodomestico = txtElectrodomestico.getText(); 
+String nroSerie = txtNroSerie.getText(); 
+String marca = txtMarca.getText(); 
+
+if (nombreElectrodomestico.isEmpty() || nombreElectrodomestico.isBlank() || 
+    nroSerie.isEmpty() || nroSerie.isBlank() || 
+    marca.isEmpty() || marca.isBlank()) {
+    JOptionPane.showMessageDialog(null, "Rellene todos los campos antes de continuar", "Error", JOptionPane.INFORMATION_MESSAGE);
+} else {
+    Electrodomestico electrodomestico = new Electrodomestico();
+    electrodomestico.nombreE = nombreElectrodomestico;
+    electrodomestico.nroSerie = nroSerie;
+    electrodomestico.marca = marca;
+
+    crearElectrodomestico(electrodomestico);
+}
     }//GEN-LAST:event_botonGuardarActionPerformed
 
     private void MostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MostrarActionPerformed

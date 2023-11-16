@@ -26,7 +26,7 @@ public class VentanaGastos extends javax.swing.JFrame {
         File rutaArchivo = new File(crearblock + archivoUsuario);
 
         if (rutaArchivo.exists()) {
-            String nserie = nroserieTXT.getText() + ".txt";
+            String nserie = nroserieTXT.getText() + "";
             String electrodomesticoBD = rutaelectrodomestico + gas + cedula + "_electrodomesticos" + gas;
             File rutaelectrodomestico = new File(electrodomesticoBD, nserie);
 

@@ -1,4 +1,0 @@
-Electrodomestico: 
-nro.serie: 
-Marca: 
-

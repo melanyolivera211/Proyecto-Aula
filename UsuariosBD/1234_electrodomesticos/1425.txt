@@ -1,4 +1,0 @@
-Electrodomestico: lavadora
-nro.serie: 1425
-Marca: melany
-

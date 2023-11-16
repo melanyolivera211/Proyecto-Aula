@@ -1,0 +1,4 @@
+Electrodomestico: lavadora
+Nro.serie: 1234
+Marca: man
+
