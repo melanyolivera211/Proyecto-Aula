@@ -121,21 +121,19 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         jPasswordField1.setText(usuario.getContraseña());
     }
     }
-   private void editarUsuario() {
+   private void editarUsuario(Usuario usuario) {
     String cedula1 = txtCedula.getText();
     String archivo = cedula1 + ".txt";
     File archivoAEditar = new File(crearblock + archivo);
 
     if (archivoAEditar.exists()) {
         // Verificar que todos los campos no estén vacíos y cumplan con los requisitos
-        if (!camposVacios() && validarCedula() && validarEmail() && validarTelefono()) {
-            // Obtener los nuevos valores de los campos de texto
+        if (!camposVacios() && validarCedula() && validarEmail() && validarTelefono()&&soloLetras(txtNombre.getText()) && soloLetras(txtApellido.getText())) {
             String nuevoNombre = txtNombre.getText();
             String nuevoApellido = txtApellido.getText();
             String nuevoTelefono = txtTelefono.getText();
             String nuevoEmail = txtEmail.getText();
             String nuevaContraseña = jPasswordField1.getText();
-
             int resultado = JOptionPane.showConfirmDialog(rootPane, "¿Desea editar este usuario?", "Editar Usuario", JOptionPane.YES_NO_OPTION);
 
             if (resultado == JOptionPane.YES_OPTION) {
@@ -190,7 +188,7 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
     }
 }
-    public boolean validarContraseña(String contraseña) {
+    public boolean validarContraseña(String contraseña1) {
         return this.contraseña.equals(contraseña);
     }
     private boolean soloLetras(String texto) {
@@ -427,22 +425,15 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         usuario.apellido = apellido1;
         usuario.email = email1;
         usuario.telefono = telefono1;
-        if (nombre1.isEmpty() || nombre1.isBlank() || apellido1.isEmpty() || apellido1.isBlank() || cedula1.isEmpty() || cedula1.isBlank() || telefono1.isEmpty() || telefono1.isBlank()
-                || email1.isEmpty() || email1.isEmpty() || contraseña1.isEmpty() || contraseña1.isBlank()) {
-            JOptionPane.showMessageDialog(this, "Rellene todos los campos para continuar.");
-        }
-        if (!cedula1.matches("\\d+")) {
-            JOptionPane.showMessageDialog(rootPane, "El número de cédula debe contener solo números enteros.", "Error de formato", JOptionPane.ERROR_MESSAGE);
-            return; // Sale del método si el formato es incorrecto
-        }
-        if (!telefono1.matches("\\d+")) {
-            JOptionPane.showMessageDialog(rootPane, "El número de teléfono debe contener solo números enteros.", "Error de formato", JOptionPane.ERROR_MESSAGE);
-        } else {
-        editarUsuario();
-        }
+        usuario.contraseña = contraseña1;
+        editarUsuario(usuario);
+        
     }//GEN-LAST:event_botonEditarActionPerformed
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
+        String contraseña1 = jPasswordField1.getText();
+         Usuario usuario = new Usuario(); 
+        usuario.contraseña = contraseña1;
         eliminarUsuario();
         limpiarCampos();
     }//GEN-LAST:event_botonEliminarActionPerformed

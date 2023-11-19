@@ -1,7 +1,0 @@
-Cedula: 123456789
-Nombre: samuel1
-Apellido: oliver1
-Télefono: 32050190654
-Email: samuel@gmail.com
-Contraseña: 1425
-
