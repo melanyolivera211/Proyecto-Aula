@@ -57,4 +57,5 @@ public class Usuario {
     public boolean validarContraseña(String contraseña) {
         return this.contraseña.equals(contraseña);
     }
+    
 }
