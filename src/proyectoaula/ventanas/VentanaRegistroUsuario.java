@@ -101,14 +101,26 @@ private Usuario obtenerUsuarioDesdeArchivo(String cedula) {
             }
             lector.close();
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error al leer el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error al leer el archivo. Detalles: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }else {
-            JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
-        }
+    } else {
+        JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
+    }
     return usuario;
 }
 
+private void cargarDatosUsuario() {
+    String cedula1 = txtCedula.getText();
+    Usuario usuario = obtenerUsuarioDesdeArchivo(cedula1);
+   if (usuario.getNroDocumento() != null && !usuario.getNroDocumento().isEmpty()) {
+        // Establecer los valores en los elementos de la interfaz de usuario (asumiendo que tienes esos elementos)
+        txtNombre.setText(usuario.getNombre());
+        txtApellido.setText(usuario.getApellido());
+        txtTelefono.setText(usuario.getTelefono());
+        txtEmail.setText(usuario.getEmail());
+        txtContraseña.setText(usuario.getContraseña());
+    }
+}
 private void editarUsuario() {
     String cedula = txtCedula.getText();
     String archivo = cedula + ".txt";
@@ -147,21 +159,7 @@ private void editarUsuario() {
     }
     }
 }
-private void cargarDatosUsuario() {
-    String cedula1 = txtCedula.getText();
-    Usuario usuario = obtenerUsuarioDesdeArchivo(cedula1);
 
-    if (!usuario.getNroDocumento().isEmpty()) {
-        // Establecer los valores en los elementos de la interfaz de usuario (asumiendo que tienes esos elementos)
-        txtNombre.setText(usuario.getNombre());
-        txtApellido.setText(usuario.getApellido());
-        txtTelefono.setText(usuario.getTelefono());
-        txtEmail.setText(usuario.getEmail());
-        txtContraseña.setText(usuario.getContraseña());
-    } else {
-        JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
-    }
-}
 private void eliminarUsuario() {
     String cedula = txtCedula.getText();
     String archivo = cedula + ".txt";
