@@ -31,7 +31,9 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         JOptionPane.showMessageDialog(rootPane, "El formato del email no es válido.");
     } else if (!validarTelefono()) {
         JOptionPane.showMessageDialog(rootPane, "El número de teléfono debe ser un número entero.");
-    } else {
+    } else if (!soloLetras(txtNombre.getText()) || !soloLetras(txtApellido.getText())) {
+        JOptionPane.showMessageDialog(rootPane, "Los campos de Nombre y Apellido solo deben contener letras.");
+    }else {
         try {
             if (creararchivo.exists()) {
                 JOptionPane.showMessageDialog(rootPane, "Este usuario ya está registrado.");
@@ -191,7 +193,10 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
     public boolean validarContraseña(String contraseña) {
         return this.contraseña.equals(contraseña);
     }
-
+    private boolean soloLetras(String texto) {
+    // Verifica si el texto solo contiene letras
+    return texto.matches("[a-zA-Z]+");
+}
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
