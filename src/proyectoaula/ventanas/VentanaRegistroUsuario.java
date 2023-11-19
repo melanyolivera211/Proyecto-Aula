@@ -172,7 +172,7 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
             // Pregunta por la contraseña antes de eliminar
             String contraseñaIngresada = JOptionPane.showInputDialog(rootPane, "Ingrese la contraseña para confirmar la eliminación:");
 
-            // Verificar si la contraseña es correcta (puedes ajustar la lógica según tus necesidades)
+            // Verificar si la contraseña es correcta 
             if (validarContraseña(contraseñaIngresada)) {
                 if (archivoAEliminar.delete()) {
                     JOptionPane.showMessageDialog(rootPane, "Usuario eliminado exitosamente.");
