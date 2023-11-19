@@ -3,9 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package proyectoaula.objects;
-
 import java.util.Date;
-
 /**
  *
  * @author MELANY
@@ -15,6 +13,5 @@ public class Gastos {
     public String nombre; 
     public float valor; 
     public Date fecha; 
-    public String descripcion;
     public Usuario usuario;
 }

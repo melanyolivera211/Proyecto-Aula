@@ -1,5 +1,4 @@
 package proyectoaula.ventanas;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -221,24 +220,21 @@ public class VentanaGastos extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        background.setBackground(new java.awt.Color(255, 255, 255));
+        background.setBackground(new java.awt.Color(204, 204, 204));
         background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/electronica (1).png"))); // NOI18N
         background.add(jLabelIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, 80, 110));
 
         jLabel2.setFont(new java.awt.Font("Copperplate Gothic Bold", 0, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("ELECTRODOMESTICOS");
         background.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 190, 100));
 
         jLabel4.setFont(new java.awt.Font("Copperplate Gothic Bold", 0, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("ECO-POWER");
         background.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, 140, 120));
 
         jLabel5.setFont(new java.awt.Font("Copperplate Gothic Bold", 0, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(153, 0, 204));
         jLabel5.setText("Gastos de electrodomesticos");
         jLabel5.setFocusable(false);
         jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -265,7 +261,7 @@ public class VentanaGastos extends javax.swing.JFrame {
         gastosTable.setSelectionBackground(new java.awt.Color(0, 102, 204));
         jScrollPane1.setViewportView(gastosTable);
 
-        background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 100, 540, 190));
+        background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 90, 540, 190));
 
         jButtonCalcular.setBackground(new java.awt.Color(0, 0, 0));
         jButtonCalcular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/calcular.png"))); // NOI18N
@@ -294,12 +290,12 @@ public class VentanaGastos extends javax.swing.JFrame {
         });
         background.add(jButtonGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 370, 100, 80));
 
+        gastoTXT.setBackground(new java.awt.Color(204, 204, 204));
         gastoTXT.setBorder(null);
-        background.add(gastoTXT, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 400, 190, -1));
+        background.add(gastoTXT, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 396, 190, 20));
 
-        RegresarVentana.setBackground(new java.awt.Color(153, 0, 204));
+        RegresarVentana.setBackground(new java.awt.Color(204, 204, 204));
         RegresarVentana.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        RegresarVentana.setForeground(new java.awt.Color(255, 255, 255));
         RegresarVentana.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/atras.png"))); // NOI18N
         RegresarVentana.setText("Regresar");
         RegresarVentana.addActionListener(new java.awt.event.ActionListener() {
@@ -309,28 +305,27 @@ public class VentanaGastos extends javax.swing.JFrame {
         });
         background.add(RegresarVentana, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 500, 140, 40));
 
+        fechaTXT.setBackground(new java.awt.Color(204, 204, 204));
         fechaTXT.setBorder(null);
         background.add(fechaTXT, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 440, 190, -1));
 
+        cedulaTXT.setBackground(new java.awt.Color(204, 204, 204));
         cedulaTXT.setBorder(null);
         background.add(cedulaTXT, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 320, 190, -1));
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(153, 0, 204));
         jLabel3.setText("Cedula:");
         background.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 320, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(153, 0, 204));
         jLabel6.setText("Gasto:");
         background.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 400, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(153, 0, 204));
         jLabel7.setText("Fecha/Hora:");
         background.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 440, -1, -1));
 
-        jPanel1.setBackground(new java.awt.Color(153, 0, 204));
+        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -345,27 +340,27 @@ public class VentanaGastos extends javax.swing.JFrame {
 
         background.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 580));
 
-        jSeparator1.setBackground(new java.awt.Color(153, 0, 204));
-        jSeparator1.setForeground(new java.awt.Color(153, 0, 204));
+        jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
+        jSeparator1.setForeground(new java.awt.Color(51, 51, 51));
         background.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 340, 190, 10));
 
-        jSeparator3.setBackground(new java.awt.Color(153, 0, 204));
-        jSeparator3.setForeground(new java.awt.Color(153, 0, 204));
+        jSeparator3.setBackground(new java.awt.Color(0, 0, 0));
+        jSeparator3.setForeground(new java.awt.Color(51, 51, 51));
         background.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 460, 190, -1));
 
-        jSeparator2.setBackground(new java.awt.Color(153, 0, 204));
-        jSeparator2.setForeground(new java.awt.Color(153, 0, 204));
+        jSeparator2.setBackground(new java.awt.Color(0, 0, 0));
+        jSeparator2.setForeground(new java.awt.Color(51, 51, 51));
         background.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 420, 190, -1));
 
+        nroserieTXT.setBackground(new java.awt.Color(204, 204, 204));
         nroserieTXT.setBorder(null);
         background.add(nroserieTXT, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 360, 190, -1));
 
-        jSeparator4.setBackground(new java.awt.Color(153, 0, 204));
-        jSeparator4.setForeground(new java.awt.Color(153, 0, 204));
+        jSeparator4.setBackground(new java.awt.Color(0, 0, 0));
+        jSeparator4.setForeground(new java.awt.Color(0, 0, 0));
         background.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 380, 190, 10));
 
         jLabel8.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(153, 0, 204));
         jLabel8.setText("nro.Serie:");
         background.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 360, -1, -1));
 
