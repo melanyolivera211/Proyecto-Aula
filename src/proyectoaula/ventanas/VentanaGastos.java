@@ -361,7 +361,7 @@ public class VentanaGastos extends javax.swing.JFrame {
         background.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 380, 190, 10));
 
         jLabel8.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel8.setText("nro.Serie:");
+        jLabel8.setText("Nro.Serie:");
         background.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 360, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

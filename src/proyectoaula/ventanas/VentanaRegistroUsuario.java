@@ -63,8 +63,8 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "No se pudo registrar el usuario. Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+       }
     }
-}
     // método para limpiar campos
     public void limpiarCampos() {
         txtNombre.setText("");
@@ -105,7 +105,7 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
     }
     return usuario;
-}
+    }
 
     private void cargarDatosUsuario() {
     String cedula1 = txtCedula.getText();
@@ -118,7 +118,7 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         txtEmail.setText(usuario.getEmail());
         jPasswordField1.setText(usuario.getContraseña());
     }
-}
+    }
    private void editarUsuario() {
     String cedula1 = txtCedula.getText();
     String archivo = cedula1 + ".txt";
@@ -159,28 +159,39 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
     } else {
         JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
     }
-}
-private void eliminarUsuario() {
+    }
+    private void eliminarUsuario() {
     String cedula = txtCedula.getText();
     String archivo = cedula + ".txt";
     File archivoAEliminar = new File(crearblock + archivo);
 
     if (archivoAEliminar.exists()) {
-        int resultado = JOptionPane.showConfirmDialog(rootPane, "¿Desea eliminar este usuario?", "Eliminar Usuario", JOptionPane.YES_NO_OPTION);
-        
-        if (resultado == JOptionPane.YES_OPTION) {
-            if (archivoAEliminar.delete()) {
-                JOptionPane.showMessageDialog(rootPane, "Usuario eliminado exitosamente.");
-                limpiarCampos(); 
+        int confirmacion = JOptionPane.showConfirmDialog(rootPane, "¿Desea eliminar este usuario?", "Eliminar Usuario", JOptionPane.YES_NO_OPTION);
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            // Pregunta por la contraseña antes de eliminar
+            String contraseñaIngresada = JOptionPane.showInputDialog(rootPane, "Ingrese la contraseña para confirmar la eliminación:");
+
+            // Verificar si la contraseña es correcta (puedes ajustar la lógica según tus necesidades)
+            if (validarContraseña(contraseñaIngresada)) {
+                if (archivoAEliminar.delete()) {
+                    JOptionPane.showMessageDialog(rootPane, "Usuario eliminado exitosamente.");
+                    limpiarCampos();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al eliminar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Error al eliminar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(rootPane, "Contraseña incorrecta. Usuario no eliminado.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     } else {
         JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
     }
 }
- 
+    public boolean validarContraseña(String contraseña) {
+        return this.contraseña.equals(contraseña);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
