@@ -120,19 +120,19 @@ public class Ventana extends javax.swing.JFrame {
     private void botonGastosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGastosActionPerformed
         VentanaGastos abc = new VentanaGastos();
         abc.setVisible(true);
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_botonGastosActionPerformed
 
     private void botonElectrodomesticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonElectrodomesticoActionPerformed
         VentanaElectrodomestico abcd = new VentanaElectrodomestico();
         abcd.setVisible(true);
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_botonElectrodomesticoActionPerformed
 
     private void RegresarVentanaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarVentanaActionPerformed
         VentanaLogin abc = new VentanaLogin();
         abc.setVisible(true);
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_RegresarVentanaActionPerformed
 
     /**

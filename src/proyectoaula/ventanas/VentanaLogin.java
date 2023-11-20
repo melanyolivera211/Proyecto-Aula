@@ -137,23 +137,29 @@ public class VentanaLogin extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(55, 55, 55)
+                .addContainerGap(55, Short.MAX_VALUE)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(33, 33, 33)
+                .addComponent(jLabel4))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(72, 72, 72)
+                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -173,8 +179,8 @@ public class VentanaLogin extends javax.swing.JFrame {
     private void botonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEntrarActionPerformed
         String cedula1 = txtCedula.getText();
         String contraseña1 = new String(txtContraseña.getPassword());
-//        verificarInicioSesion(cedula1, contraseña1);
         verificarInicioSesion(cedula1, contraseña1);
+        this.dispose();
     }//GEN-LAST:event_botonEntrarActionPerformed
     private Usuario verificarInicioSesion(String cedula, String contraseña) {
     String archivo = cedula + ".txt";
@@ -209,7 +215,6 @@ public class VentanaLogin extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(rootPane, "Inicio de sesión exitoso.");
         Ventana nuevaVentana = new Ventana();
         nuevaVentana.setVisible(true);
-        this.setVisible(false);
      } else {
                 JOptionPane.showMessageDialog(rootPane, "Contraseña incorrecta.", "Error de Inicio de Sesión", JOptionPane.ERROR_MESSAGE);
             }
@@ -227,7 +232,7 @@ public class VentanaLogin extends javax.swing.JFrame {
         ventana.setLocationRelativeTo(this);
 
         ventana.setVisible(true);
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_RegistrarseActionPerformed
 
     public static void main(String[] args) {

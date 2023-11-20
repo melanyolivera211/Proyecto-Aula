@@ -390,7 +390,7 @@ public class VentanaGastos extends javax.swing.JFrame {
     private void RegresarVentanaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarVentanaActionPerformed
         Ventana abc = new Ventana();
         abc.setVisible(true);
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_RegresarVentanaActionPerformed
 
     private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
