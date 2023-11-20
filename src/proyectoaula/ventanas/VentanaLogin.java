@@ -136,6 +136,7 @@ public class VentanaLogin extends javax.swing.JFrame {
         String contraseña1 = new String(txtContraseña.getPassword());
         //        verificarInicioSesion(cedula1, contraseña1);
         verificarInicioSesion(cedula1, contraseña1);
+        this.setVisible(false);
     }//GEN-LAST:event_botonEntrarActionPerformed
     private Usuario verificarInicioSesion(String cedula, String contraseña) {
     String archivo = cedula + ".txt";
