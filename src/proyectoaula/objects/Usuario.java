@@ -1,18 +1,18 @@
 package proyectoaula.objects;
 public class Usuario {
-  public String nroDocumento;
+  public String cedula;
   public String nombre; 
   public String apellido; 
   public String contraseña;
   public String email;   
   public String telefono; 
 
-    public String getNroDocumento() {
-        return nroDocumento;
+    public String getCedula() {
+        return cedula;
     }
 
-    public void setNroDocumento(String nroDocumento) {
-        this.nroDocumento = nroDocumento;
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
     }
 
     public String getNombre() {
