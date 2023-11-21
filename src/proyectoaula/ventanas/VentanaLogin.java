@@ -64,7 +64,8 @@ public class VentanaLogin extends javax.swing.JFrame {
 
         botonEntrar.setBackground(new java.awt.Color(204, 204, 204));
         botonEntrar.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
-        botonEntrar.setText("ENTRAR");
+        botonEntrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/ingresar.png"))); // NOI18N
+        botonEntrar.setText("Entrar");
         botonEntrar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         botonEntrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -83,20 +84,22 @@ public class VentanaLogin extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/clave.png"))); // NOI18N
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 170, 30, 30));
 
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/usuario-de-perfil.png"))); // NOI18N
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 30, 30));
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/licencia-de-conducir.png"))); // NOI18N
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 40, 30));
 
         botonRegistrarse.setBackground(new java.awt.Color(204, 204, 204));
         botonRegistrarse.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
-        botonRegistrarse.setText("REGISTRARSE");
+        botonRegistrarse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/agregar-contacto.png"))); // NOI18N
+        botonRegistrarse.setText("Registrarse");
         botonRegistrarse.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         botonRegistrarse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonRegistrarseActionPerformed(evt);
             }
         });
-        jPanel2.add(botonRegistrarse, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 260, 120, 40));
+        jPanel2.add(botonRegistrarse, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 260, 140, 40));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 60, 350, 360));
 
@@ -136,51 +139,70 @@ public class VentanaLogin extends javax.swing.JFrame {
         String contraseña1 = new String(txtContraseña.getPassword());
         //        verificarInicioSesion(cedula1, contraseña1);
         verificarInicioSesion(cedula1, contraseña1);
-        this.setVisible(false);
     }//GEN-LAST:event_botonEntrarActionPerformed
-    private Usuario verificarInicioSesion(String cedula, String contraseña) {
+   private Usuario verificarInicioSesion(String cedula, String contraseña) {
     String archivo = cedula + ".txt";
     File archivoALeer = new File(crearblock + archivo);
 
     if (archivoALeer.exists()) {
-        try {
-            BufferedReader lector = new BufferedReader(new FileReader(archivoALeer.getAbsolutePath()));
+        try (BufferedReader lector = new BufferedReader(new FileReader(archivoALeer.getAbsolutePath()))) {
             String linea;
-
-            // Crear un objeto Usuario y cargar datos desde el archivo
             Usuario usuario = new Usuario();
-            while ((linea = lector.readLine()) != null) {
-                if (linea.startsWith("Cedula:")) {
-                    usuario.setCedula(linea.substring(8).trim());
-                } else if (linea.startsWith("Nombre:")) {
-                    usuario.setNombre(linea.substring(8).trim());
-                } else if (linea.startsWith("Apellido:")) {
-                    usuario.setApellido(linea.substring(9).trim());
-                } else if (linea.startsWith("Télefono:")) {
-                    usuario.setTelefono(linea.substring(10).trim());
-                } else if (linea.startsWith("Email:")) {
-                    usuario.setEmail(linea.substring(7).trim());
-                } else if (linea.startsWith("Contraseña:")) {
-                    usuario.setContraseña(linea.substring(12).trim());
-                }
-            }
 
-            lector.close();
+            while ((linea = lector.readLine()) != null) {
+                // Cargar datos del archivo en el objeto Usuario
+                cargarDatosUsuario(linea, usuario);
+            }
 
             if (usuario != null && usuario.validarContraseña(contraseña)) {
-        JOptionPane.showMessageDialog(rootPane, "Inicio de sesión exitoso.");
-        Ventana nuevaVentana = new Ventana();
-        nuevaVentana.setVisible(true);
-     } else {
-                JOptionPane.showMessageDialog(rootPane, "Contraseña incorrecta.", "Error de Inicio de Sesión", JOptionPane.ERROR_MESSAGE);
+                mostrarMensajeInicioSesionExitoso();
+                abrirNuevaVentana();
+                cerrarVentanaActual();
+                return usuario; // Retorna el objeto Usuario si la verificación es exitosa
+            } else {
+                mostrarMensajeError("Contraseña incorrecta.");
             }
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error al leer el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+            mostrarMensajeError("Error al leer el archivo.");
         }
     } else {
-        JOptionPane.showMessageDialog(rootPane, "Usuario no encontrado.", "Error de Inicio de Sesión", JOptionPane.ERROR_MESSAGE);
+        mostrarMensajeError("Usuario no encontrado.");
     }
+
     return null; // Usuario no encontrado o contraseña incorrecta
+}
+
+private void cargarDatosUsuario(String linea, Usuario usuario) {
+    if (linea.startsWith("Cedula:")) {
+        usuario.setCedula(linea.substring(8).trim());
+    } else if (linea.startsWith("Nombre:")) {
+        usuario.setNombre(linea.substring(8).trim());
+    } else if (linea.startsWith("Apellido:")) {
+        usuario.setApellido(linea.substring(9).trim());
+    } else if (linea.startsWith("Télefono:")) {
+        usuario.setTelefono(linea.substring(10).trim());
+    } else if (linea.startsWith("Email:")) {
+        usuario.setEmail(linea.substring(7).trim());
+    } else if (linea.startsWith("Contraseña:")) {
+        usuario.setContraseña(linea.substring(12).trim());
+    }
+}
+
+private void mostrarMensajeInicioSesionExitoso() {
+    JOptionPane.showMessageDialog(rootPane, "Inicio de sesión exitoso.");
+}
+
+private void abrirNuevaVentana() {
+    Ventana nuevaVentana = new Ventana();
+    nuevaVentana.setVisible(true);
+}
+
+private void cerrarVentanaActual() {
+    this.setVisible(false);
+}
+
+private void mostrarMensajeError(String mensaje) {
+    JOptionPane.showMessageDialog(rootPane, mensaje, "Error de Inicio de Sesión", JOptionPane.ERROR_MESSAGE);
 }
 
     public static void main(String[] args) {

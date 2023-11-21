@@ -3,15 +3,29 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package proyectoaula.objects;
-import java.util.Date;
 /**
  *
  * @author MELANY
  */
 public class Gastos {
-    public Integer id; 
-    public String nombre; 
-    public float valor; 
-    public Date fecha; 
-    public Usuario usuario;
+   
+    public double gasto;
+    public String fecha;
+
+    public double getGasto() {
+        return gasto;
+    }
+
+    public void setGasto(double gasto) {
+        this.gasto = gasto;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+    
 }
