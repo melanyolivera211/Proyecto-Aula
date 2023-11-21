@@ -1,4 +1,0 @@
-Electrodomestico: nevera
-nro.serie: 1234-mc
-Marca: samsung
-
