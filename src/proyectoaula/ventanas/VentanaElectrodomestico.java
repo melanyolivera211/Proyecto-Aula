@@ -13,6 +13,7 @@ import proyectoaula.objects.Electrodomestico;
 
 public class VentanaElectrodomestico extends javax.swing.JFrame {
 
+    Electrodomestico electrodomestico = new Electrodomestico();
     String elec = File.separator;
     String crearblock = System.getProperty("user.dir") + elec + "UsuariosBD" + elec;
     String rutaelectrodomestico = "UsuariosBD";
@@ -20,8 +21,8 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
 
     public VentanaElectrodomestico() {
         initComponents();
-
     }
+
     private void crearElectrodomestico(Electrodomestico electrodomestico) {
         String cedula = txtCedula.getText();
         String archivoUsuario = cedula + ".txt";
@@ -41,7 +42,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
                         CAelectrodomestico.createNewFile();
                         Writer escritorDeArchivo = new FileWriter(CAelectrodomestico.getAbsolutePath());
                         String datosElectrodomestico = "Electrodomestico: " + electrodomestico.nombreE + "\n";
-                        datosElectrodomestico += "Nro.serie: " + electrodomestico.nroSerie + "\n";
+                        datosElectrodomestico += "nro.serie: " + electrodomestico.nroSerie + "\n";
                         datosElectrodomestico += "Marca: " + electrodomestico.marca + "\n";
                         datosElectrodomestico += "\n";
                         escritorDeArchivo.write(datosElectrodomestico);
@@ -75,17 +76,17 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
                 try {
                     BufferedReader lector = new BufferedReader(new FileReader(BAelectrodomestico.getAbsolutePath()));
                     String linea;
-                    String datos = "";
+                    String dato = "";
                     while ((linea = lector.readLine()) != null) {
                         if (linea.startsWith("Electrodomestico:")) {
-                            datos = "Electrodomestico: " + linea.substring(18) + "\n";
+                            electrodomestico.setNombreE(linea.substring(18).trim());
                         } else if (linea.startsWith("nro.serie:")) {
-                            datos += "nro.serie: " + linea.substring(11) + "\n";
+                            electrodomestico.setNroserie(linea.substring(11).trim());
                         } else if (linea.startsWith("Marca:")) {
-                            datos += "Marca: " + linea.substring(7);
+                            electrodomestico.setMarca(linea.substring(7).trim());
                         }
                     }
-                    JOptionPane.showMessageDialog(rootPane, datos);
+                    JOptionPane.showMessageDialog(rootPane, electrodomestico.nombreE + "\n" + electrodomestico.nroSerie + "\n" + electrodomestico.marca + "\n");
                     lector.close();
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(rootPane, "no se a podido encontrar el electrodomestico");
@@ -98,14 +99,13 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
         }
     }
 
-    private void editarElectrodomestico() {
+    private void editarElectrodomestico(Electrodomestico electrodomestico) {
         String cedula = txtCedula.getText();
         String archivoUsuario = cedula + ".txt";
         File rutaArchivo = new File(crearblock + archivoUsuario);
         if (rutaArchivo.exists()) {
-            String nserie = txtNroSerie.getText() + ".txt";
             String electrodomesticoBD = rutaelectrodomestico + elec + cedula + "_electrodomesticos" + elec;
-            File BAelectrodomestico = new File(electrodomesticoBD + nserie);
+            File BAelectrodomestico = new File(electrodomesticoBD + electrodomestico.nroSerie + ".txt");
             if (BAelectrodomestico.exists()) {
                 try {
                     BufferedReader lector = new BufferedReader(new FileReader(BAelectrodomestico.getAbsolutePath()));
@@ -113,11 +113,11 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
                     StringBuilder datos = new StringBuilder();
                     while ((linea = lector.readLine()) != null) {
                         if (linea.startsWith("Electrodomestico:") && !txtElectrodomestico.getText().equals("")) {
-                            datos.append("Electrodomestico: ").append(txtElectrodomestico.getText()).append("\n");
+                            datos.append("Electrodomestico: ").append(electrodomestico.nombreE).append("\n");
                         } else if (linea.startsWith("nro.serie:") && !txtNroSerie.getText().equals("")) {
-                            datos.append("nro.serie: ").append(txtNroSerie.getText()).append("\n");
+                            datos.append("nro.serie: ").append(electrodomestico.nroSerie).append("\n");
                         } else if (linea.startsWith("Marca:") && !txtMarca.getText().equals("")) {
-                            datos.append("Marca: ").append(txtMarca.getText()).append("\n");
+                            datos.append("Marca: ").append(electrodomestico.marca).append("\n");
                         } else {
                             datos.append(linea).append("\n");
                         }
@@ -148,7 +148,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
 
         if (archivos != null) {
 
-            modelo = new DefaultTableModel();
+            DefaultTableModel modelo = new DefaultTableModel();
             modelo.addColumn("Electrodomestico");
             modelo.addColumn("Número de Serie");
             modelo.addColumn("Marca");
@@ -157,21 +157,17 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
                 try {
                     BufferedReader lector = new BufferedReader(new FileReader(archivo.getAbsolutePath()));
                     String linea;
-                    String electrodomestico = "";
-                    String numeroSerie = "";
-                    String marca = "";
-
                     while ((linea = lector.readLine()) != null) {
                         if (linea.startsWith("Electrodomestico:")) {
-                            electrodomestico = linea.substring(18);
-                        } else if (linea.startsWith("Nro.serie:")) {
-                            numeroSerie = linea.substring(11);
+                            electrodomestico.setNombreE(linea.substring(18).trim());
+                        } else if (linea.startsWith("nro.serie:")) {
+                            electrodomestico.setNroserie(linea.substring(11).trim());
                         } else if (linea.startsWith("Marca:")) {
-                            marca = linea.substring(7);
+                            electrodomestico.setMarca(linea.substring(7).trim());
                         }
                     }
 
-                    modelo.addRow(new Object[]{electrodomestico, numeroSerie, marca});
+                    modelo.addRow(new Object[]{electrodomestico.nombreE, electrodomestico.nroSerie, electrodomestico.marca});
 
                     lector.close();
                 } catch (IOException e) {
@@ -184,15 +180,14 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "No hay electrodomésticos registrados.");
         }
     }
-    
-    private void eliminarElectrodomestico() {
+
+    private void eliminarElectrodomestico(Electrodomestico electrodomestico) {
         String cedula = txtCedula.getText();
         String archivoUsuario = cedula + ".txt";
         File rutaArchivo = new File(crearblock + archivoUsuario);
         if (rutaArchivo.exists()) {
-            String nserie = txtNroSerie.getText() + ".txt";
             String electrodomesticoBD = rutaelectrodomestico + elec + cedula + "_electrodomesticos" + elec;
-            File BAelectrodomestico = new File(electrodomesticoBD + nserie);
+            File BAelectrodomestico = new File(electrodomesticoBD + electrodomestico.nroSerie + ".txt");
             if (BAelectrodomestico.exists()) {
                 try {
                     if (BAelectrodomestico.delete()) {
@@ -232,6 +227,8 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
         botonGuardar = new javax.swing.JButton();
         Mostrar = new javax.swing.JButton();
         Cancelar = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
 
@@ -240,18 +237,20 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
         PanelElectrodomestico.setBackground(new java.awt.Color(204, 204, 255));
         PanelElectrodomestico.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        RegresarVentana.setBackground(new java.awt.Color(102, 102, 102));
         RegresarVentana.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         RegresarVentana.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/atras.png"))); // NOI18N
         RegresarVentana.setText("Regresar");
+        RegresarVentana.setBorder(null);
         RegresarVentana.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RegresarVentanaActionPerformed(evt);
             }
         });
-        jPanel1.add(RegresarVentana, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 500, 140, 40));
+        jPanel1.add(RegresarVentana, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 480, 140, 40));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -319,8 +318,8 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
 
         botonEditar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         botonEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/editar-codigo.png"))); // NOI18N
-        botonEditar.setText("EDITAR");
-        botonEditar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        botonEditar.setText("Editar");
+        botonEditar.setBorder(null);
         botonEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonEditarActionPerformed(evt);
@@ -330,8 +329,8 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
 
         botonEliminar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         botonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/borrar.png"))); // NOI18N
-        botonEliminar.setText("ELIMINAR");
-        botonEliminar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        botonEliminar.setText("Eliminar");
+        botonEliminar.setBorder(null);
         botonEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonEliminarActionPerformed(evt);
@@ -341,8 +340,8 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
 
         botonBuscar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         botonBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/buscar.png"))); // NOI18N
-        botonBuscar.setText("BUSCAR");
-        botonBuscar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        botonBuscar.setText("Buscar");
+        botonBuscar.setBorder(null);
         botonBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonBuscarActionPerformed(evt);
@@ -352,8 +351,8 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
 
         botonGuardar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         botonGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/salvar.png"))); // NOI18N
-        botonGuardar.setText("GUARDAR");
-        botonGuardar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        botonGuardar.setText("Guardar");
+        botonGuardar.setBorder(null);
         botonGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonGuardarActionPerformed(evt);
@@ -363,8 +362,8 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
 
         Mostrar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         Mostrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/mostrar.png"))); // NOI18N
-        Mostrar.setText("MOSTRAR");
-        Mostrar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        Mostrar.setText("Mostrar");
+        Mostrar.setBorder(null);
         Mostrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MostrarActionPerformed(evt);
@@ -374,23 +373,26 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
 
         Cancelar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         Cancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/cancelado.png"))); // NOI18N
-        Cancelar.setText("CANCELAR");
+        Cancelar.setText("Cancelar");
+        Cancelar.setBorder(null);
         Cancelar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         Cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CancelarActionPerformed(evt);
             }
         });
-        jPanel2.add(Cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 530, -1, 40));
+        jPanel2.add(Cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 530, 120, 30));
+        jPanel2.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 130, 190, 10));
+        jPanel2.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 80, 190, 20));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 0, 570, 600));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/electrodomesticos.png"))); // NOI18N
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, 270, 330));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 270, 330));
 
         jLabel7.setFont(new java.awt.Font("Lucida Sans", 1, 18)); // NOI18N
         jLabel7.setText("GESTIÓN DE ELECTRODOMÉSTICOS");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 350, 40));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 350, 40));
 
         PanelElectrodomestico.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 600));
 
@@ -412,7 +414,7 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
     private void RegresarVentanaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarVentanaActionPerformed
         Ventana abc = new Ventana();
         abc.setVisible(true);
-        this.dispose();
+        this.setVisible(false);
     }//GEN-LAST:event_RegresarVentanaActionPerformed
 
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
@@ -422,12 +424,17 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
     }//GEN-LAST:event_CancelarActionPerformed
 
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
-        String serie = txtNroSerie.getText();
         String cedula = txtCedula.getText();
-        if (serie.isEmpty() || serie.isBlank() || cedula.isEmpty() || cedula.isBlank()) {
+        String nombreElectrodomestico = txtElectrodomestico.getText();
+        String nroSerie = txtNroSerie.getText();
+        String marca = txtMarca.getText();
+        if (nroSerie.isEmpty() || nroSerie.isBlank() || cedula.isEmpty() || cedula.isBlank()) {
             JOptionPane.showMessageDialog(rootPane, "el espacio para ingresar la cedula o el nro.serie esta/n vacios, favor rellenar ambos para buscar el electrodomestico");
         } else {
-            editarElectrodomestico();
+            electrodomestico.nombreE = nombreElectrodomestico;
+            electrodomestico.nroSerie = nroSerie;
+            electrodomestico.marca = marca;
+            editarElectrodomestico(electrodomestico);
 
             txtElectrodomestico.setText("");
             txtNroSerie.setText("");
@@ -441,19 +448,15 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
         if (serie.isEmpty() || serie.isBlank() || cedula.isEmpty() || cedula.isBlank()) {
             JOptionPane.showMessageDialog(rootPane, "el espacio para ingresar la cedula o el nro.serie esta/n vacios, favor rellenar ambos para buscar el electrodomestico");
         } else {
-            eliminarElectrodomestico();
-            txtElectrodomestico.setText("");
-            txtNroSerie.setText("");
-            txtMarca.setText("");
+            eliminarElectrodomestico(electrodomestico);
+            limpiarCampos();
         }
     }//GEN-LAST:event_botonEliminarActionPerformed
 
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
         String cedula = txtCedula.getText();
-        String electrodomestico = txtElectrodomestico.getText();
         String nroserie = txtNroSerie.getText();
-        String marca = txtMarca.getText();
-        if (cedula.isEmpty() || cedula.isBlank() || electrodomestico.isEmpty() || electrodomestico.isBlank() || nroserie.isEmpty() || nroserie.isBlank() || marca.isEmpty() || marca.isBlank()) {
+        if (cedula.isEmpty() || cedula.isBlank() || nroserie.isEmpty() || nroserie.isBlank()) {
             JOptionPane.showMessageDialog(rootPane, "Uno o mas campos de texto están vacíos favor de rellenarlos");
         } else {
             buscarElectrodomestico();
@@ -464,22 +467,23 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
     }//GEN-LAST:event_botonBuscarActionPerformed
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
-       String nombreElectrodomestico = txtElectrodomestico.getText(); 
-String nroSerie = txtNroSerie.getText(); 
-String marca = txtMarca.getText(); 
+        String nombreElectrodomestico = txtElectrodomestico.getText();
+        String nroSerie = txtNroSerie.getText();
+        String marca = txtMarca.getText();
 
-if (nombreElectrodomestico.isEmpty() || nombreElectrodomestico.isBlank() || 
-    nroSerie.isEmpty() || nroSerie.isBlank() || 
-    marca.isEmpty() || marca.isBlank()) {
-    JOptionPane.showMessageDialog(null, "Rellene todos los campos antes de continuar", "Error", JOptionPane.INFORMATION_MESSAGE);
-} else {
-    Electrodomestico electrodomestico = new Electrodomestico();
-    electrodomestico.nombreE = nombreElectrodomestico;
-    electrodomestico.nroSerie = nroSerie;
-    electrodomestico.marca = marca;
+        if (nombreElectrodomestico.isEmpty() || nombreElectrodomestico.isBlank()
+                || nroSerie.isEmpty() || nroSerie.isBlank()
+                || marca.isEmpty() || marca.isBlank()) {
+            JOptionPane.showMessageDialog(null, "Rellene todos los campos antes de continuar", "Error", JOptionPane.INFORMATION_MESSAGE);
+        } else {
 
-    crearElectrodomestico(electrodomestico);
-}
+            electrodomestico.nombreE = nombreElectrodomestico;
+            electrodomestico.nroSerie = nroSerie;
+            electrodomestico.marca = marca;
+
+            crearElectrodomestico(electrodomestico);
+            limpiarCampos();
+        }
     }//GEN-LAST:event_botonGuardarActionPerformed
 
     private void MostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MostrarActionPerformed
@@ -488,6 +492,7 @@ if (nombreElectrodomestico.isEmpty() || nombreElectrodomestico.isBlank() ||
             JOptionPane.showMessageDialog(rootPane, "Debe ingresar la cedula");
         } else {
             mostrarElectrodomesticosEnTabla();
+            limpiarCampos();
         }
     }//GEN-LAST:event_MostrarActionPerformed
 
@@ -523,6 +528,8 @@ if (nombreElectrodomestico.isEmpty() || nombreElectrodomestico.isBlank() ||
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTable tablaelectrodomestico;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtElectrodomestico;
