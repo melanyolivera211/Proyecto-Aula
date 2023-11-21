@@ -1,8 +1,18 @@
 package proyectoaula.ventanas;
+<<<<<<< HEAD
 public class VentanaGastos extends javax.swing.JFrame {
     public VentanaGastos() {
         initComponents();
     }
+=======
+
+public class VentanaGastos extends javax.swing.JFrame {
+
+    public VentanaGastos() {
+        initComponents();
+    }
+
+>>>>>>> f2ec3a3fd67e7ba2ab897cf3e3b4b4ae87630b05
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

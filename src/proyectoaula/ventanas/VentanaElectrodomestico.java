@@ -27,7 +27,11 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
         String archivoUsuario = cedula + ".txt";
         File rutaArchivo = new File(crearblock + archivoUsuario);
         if (rutaArchivo.exists()) {
+<<<<<<< HEAD
             String nserie = nroserieTXT.getText();
+=======
+            String nserie = nroserieTXT.getText()+".txt";
+>>>>>>> f2ec3a3fd67e7ba2ab897cf3e3b4b4ae87630b05
             String electrodomesticoBD = rutaelectrodomestico + elec + cedula + "_electrodomesticos" + elec;
             File crearelec = new File(electrodomesticoBD);
             File CAelectrodomestico = new File(electrodomesticoBD + nserie);
@@ -52,6 +56,10 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Error al registrar el electrodoméstico.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
+<<<<<<< HEAD
+=======
+
+>>>>>>> f2ec3a3fd67e7ba2ab897cf3e3b4b4ae87630b05
                     try {
                         crearelec.mkdirs();
                         CAelectrodomestico.createNewFile();
@@ -63,18 +71,35 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
                         escritorDeArchivo.write(datosElectrodomestico);
                         escritorDeArchivo.flush();
                         escritorDeArchivo.close();
+<<<<<<< HEAD
                         JOptionPane.showMessageDialog(rootPane, "Electrodoméstico registrado con éxito.", "Registro exitoso", JOptionPane.INFORMATION_MESSAGE);
+=======
+
+                        JOptionPane.showMessageDialog(rootPane, "Electrodoméstico registrado con éxito.", "Registro exitoso", JOptionPane.INFORMATION_MESSAGE);
+
+>>>>>>> f2ec3a3fd67e7ba2ab897cf3e3b4b4ae87630b05
                     } catch (IOException e) {
                         JOptionPane.showMessageDialog(null, "Error al registrar el electrodoméstico.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
+<<<<<<< HEAD
         } else {
             JOptionPane.showMessageDialog(rootPane, "el usuario no existe");
         }
     }
 
     private void buscarElectrodomestico() {
+=======
+
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "el usuario no existe");
+
+        }
+    }
+
+    private void buscarelectrodomestico() {
+>>>>>>> f2ec3a3fd67e7ba2ab897cf3e3b4b4ae87630b05
         String cedula = txtCedula.getText();
         String archivoUsuario = cedula + ".txt";
         File rutaArchivo = new File(crearblock + archivoUsuario);
@@ -110,7 +135,11 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
         }
     }
 
+<<<<<<< HEAD
      private void editarElectrodomestico() {
+=======
+    private void editarelectrodomestico() {
+>>>>>>> f2ec3a3fd67e7ba2ab897cf3e3b4b4ae87630b05
         String cedula = txtCedula.getText();
         String archivoUsuario = cedula + ".txt";
         File rutaArchivo = new File(crearblock + archivoUsuario);
@@ -436,7 +465,11 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
         if (serie.isEmpty() || serie.isBlank() || cedula.isEmpty() || cedula.isBlank()) {
             JOptionPane.showMessageDialog(rootPane, "el espacio para ingresar la cedula o el nro.serie esta/n vacios favor rellenar ambos para buscar el electrodomestico");
         } else {
+<<<<<<< HEAD
             editarElectrodomestico();
+=======
+            editarelectrodomestico();
+>>>>>>> f2ec3a3fd67e7ba2ab897cf3e3b4b4ae87630b05
             electrodomesticoTXT.setText("");
             nroserieTXT.setText("");
             marcaTXT.setText("");
@@ -455,7 +488,11 @@ public class VentanaElectrodomestico extends javax.swing.JFrame {
         if (cedula.isEmpty() || cedula.isBlank() || electrodomestico.isEmpty() || electrodomestico.isBlank() || nroserie.isEmpty() || nroserie.isBlank() || marca.isEmpty() || marca.isBlank()) {
             JOptionPane.showMessageDialog(rootPane, "Uno o mas campos de texto esta vacios favor rellenarlos");
         } else {
+<<<<<<< HEAD
             buscarElectrodomestico();
+=======
+            buscarelectrodomestico();
+>>>>>>> f2ec3a3fd67e7ba2ab897cf3e3b4b4ae87630b05
             electrodomesticoTXT.setText("");
             nroserieTXT.setText("");
             marcaTXT.setText("");
