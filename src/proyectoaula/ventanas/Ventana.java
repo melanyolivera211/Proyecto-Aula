@@ -757,6 +757,7 @@ public class Ventana extends javax.swing.JFrame {
     private void tablaelectrodomesticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaelectrodomesticoMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_tablaelectrodomesticoMouseClicked
+    
     private void guardarGastos(Gastos gastos) {
         String cedula = txtCedula2.getText();
         String archivoUsuario = cedula + ".txt";
