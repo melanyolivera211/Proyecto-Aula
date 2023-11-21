@@ -1,0 +1,4 @@
+Electrodomestico: lavadora
+nro.serie: 1425m
+Marca: samsung
+

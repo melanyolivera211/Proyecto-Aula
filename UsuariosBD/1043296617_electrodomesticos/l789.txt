@@ -1,4 +1,0 @@
-Electrodomestico: melany
-nro.serie: l789
-Marca: 1234
-
