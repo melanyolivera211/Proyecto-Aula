@@ -833,7 +833,7 @@ public class Ventana extends javax.swing.JFrame {
 
                     if (cantidadGastos > 0) {
                         double promedio = sumaGastos / cantidadGastos;
-                        JOptionPane.showMessageDialog(rootPane, "El promedio de gastos es: " + promedio);
+                        JOptionPane.showMessageDialog(rootPane, "Al final usted consumio: " + promedio+" entre todos su electrodomesticos");
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "No hay gastos registrados para calcular el promedio.");
                     }
