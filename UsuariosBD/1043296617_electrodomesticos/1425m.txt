@@ -1,6 +1,0 @@
-Electrodomestico: Licuadora
-nro.serie: 1425m
-Marca: oster
-
-Gasto: 12.0
-Fecha: 16-11-23

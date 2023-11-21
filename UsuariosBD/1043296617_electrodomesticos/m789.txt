@@ -1,0 +1,4 @@
+Electrodomestico: microondas
+nro.serie: m789
+Marca: mazda
+

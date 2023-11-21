@@ -1,0 +1,7 @@
+Cedula: 147258369
+Nombre: Samuel
+Apellido: Olivera
+Télefono: 1234567899
+Email: samuel@gmail.com
+Contraseña: 1425
+

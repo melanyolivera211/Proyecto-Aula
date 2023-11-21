@@ -1,6 +1,0 @@
-Electrodomestico: Lavadora
-nro.serie: 14mx
-Marca: samsung
-
-Gasto: 10.0
-Fecha: 14-11-23
