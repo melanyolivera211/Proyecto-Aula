@@ -7,64 +7,194 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import javax.swing.JOptionPane;
- 
+import proyectoaula.objects.Usuario;
+
 public class VentanaRegistroUsuario extends javax.swing.JDialog {
-    String usu= File.separator;
+
+    String usu = File.separator;
     public String crearblock = System.getProperty("user.dir") + usu + "UsuariosBD" + usu;
-  
+
     public VentanaRegistroUsuario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
-    
-    
-    //Crear base de datos
-    private void crearUsuarios() {
-        String archivo = txtCedula.getText() + ".txt";
-        File crearubi = new File(crearblock);
-        File creararchivo = new File(crearblock + archivo);
+    private void crearUsuarios(Usuario usuario) {
+    String archivo = txtCedula.getText() + ".txt";
+    File crearubi = new File(crearblock);
+    File creararchivo = new File(crearblock, archivo);
 
-        if (txtCedula.getText().equals("")) {
-            JOptionPane.showMessageDialog(rootPane, "Este usuario no existe.");
+    if (camposVacios()) {
+        JOptionPane.showMessageDialog(rootPane, "Todos los campos deben estar llenos.");
+    } else if (!validarCedula()) {
+        JOptionPane.showMessageDialog(rootPane, "La cédula debe tener entre 8 y 10 dígitos enteros.");
+    } else if (!validarEmail()) {
+        JOptionPane.showMessageDialog(rootPane, "El formato del email no es válido.");
+    } else if (!validarTelefono()) {
+        JOptionPane.showMessageDialog(rootPane, "El número de teléfono debe ser un número entero.");
+    } else if (!soloLetras(txtNombre.getText()) || !soloLetras(txtApellido.getText())) {
+        JOptionPane.showMessageDialog(rootPane, "Los campos de Nombre y Apellido solo deben contener letras.");
+    }else {
+        try {
+            if (creararchivo.exists()) {
+                JOptionPane.showMessageDialog(rootPane, "Este usuario ya está registrado.");
+            } else {
+                crearubi.mkdirs();
+                creararchivo.createNewFile();
 
-        } else {
-            try {
-                if (creararchivo.exists()) {
-                    JOptionPane.showMessageDialog(rootPane, "Este usuario ya está registrado.");
-                } else {
-                    crearubi.mkdirs();
-                    creararchivo.createNewFile();
-                    Writer escritorDeArchivo = new FileWriter(creararchivo.getAbsolutePath());
-                    String datosUsuarios = "Cedula: "+  txtCedula.getText()+"\n";
-                    datosUsuarios += "Nombre: " + txtNombre.getText()+"\n";
-                    datosUsuarios +=  "Apellido: " + txtApellido.getText()+"\n";
-                    datosUsuarios +=  "Télefono: " + txtTelefono.getText()+"\n";
-                    datosUsuarios +=  "Email: " + txtEmail.getText()+"\n";
-                    datosUsuarios +=  "Contraseña: " + txtContraseña.getText()+"\n";
-                    datosUsuarios +=  "\n";
-                    
+                usuario.setCedula(txtCedula.getText());
+                usuario.setNombre(txtNombre.getText());
+                usuario.setApellido(txtApellido.getText());
+                usuario.setTelefono(txtTelefono.getText());
+                usuario.setEmail(txtEmail.getText());
+                usuario.setContraseña(jPasswordField1.getText());
+
+                try (Writer escritorDeArchivo = new FileWriter(creararchivo.getAbsolutePath())) {
+                    String datosUsuarios = "Cedula: " + usuario.getCedula() + "\n";
+                    datosUsuarios += "Nombre: " + usuario.getNombre() + "\n";
+                    datosUsuarios += "Apellido: " + usuario.getApellido() + "\n";
+                    datosUsuarios += "Télefono: " + usuario.getTelefono() + "\n";
+                    datosUsuarios += "Email: " + usuario.getEmail() + "\n";
+                    datosUsuarios += "Contraseña: " + usuario.getContraseña() + "\n";
+                    datosUsuarios += "\n";
+
                     escritorDeArchivo.write(datosUsuarios);
-                    escritorDeArchivo.flush();
-                    escritorDeArchivo.close();
                     JOptionPane.showMessageDialog(rootPane, "¡El usuario ha sido registrado con éxito!");
+                    limpiarCampos();
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "No se pudo registrar el usuario.", "Error", JOptionPane.ERROR_MESSAGE);
-          
             }
-            
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "No se pudo registrar el usuario. Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-
+       }
     }
-     // método para limpiar campos
-     public void limpiarCampos() {
+    // método para limpiar campos
+    public void limpiarCampos() {
         txtNombre.setText("");
         txtApellido.setText("");
-        txtEmail.setText(""); 
+        txtEmail.setText("");
         txtTelefono.setText("");
         txtCedula.setText("");
-        txtContraseña.setText("");     
+        jPasswordField1.setText("");
     }
+    private Usuario obtenerUsuarioDesdeArchivo(String cedula) {
+    String archivo = cedula + ".txt";
+    File archivoALeer = new File(crearblock + archivo);
+    Usuario usuario = new Usuario();
+    if (archivoALeer.exists()) {
+        try {
+            BufferedReader lector = new BufferedReader(new FileReader(archivoALeer.getAbsolutePath()));
+            String linea;
+            while ((linea = lector.readLine()) != null) {
+                if (linea.startsWith("Cedula:")) {
+                    usuario.setCedula(linea.substring(8).trim());
+                } else if (linea.startsWith("Nombre:")) {
+                    usuario.setNombre(linea.substring(8).trim());
+                } else if (linea.startsWith("Apellido:")) {
+                    usuario.setApellido(linea.substring(9).trim());
+                } else if (linea.startsWith("Télefono:")) {
+                    usuario.setTelefono(linea.substring(10).trim());
+                } else if (linea.startsWith("Email:")) {
+                    usuario.setEmail(linea.substring(7).trim());
+                } else if (linea.startsWith("Contraseña:")) {
+                    usuario.setContraseña(linea.substring(12).trim());
+                }
+            }
+            lector.close();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al leer el archivo. Detalles: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
+    }
+    return usuario;
+    }
+
+    private void cargarDatosUsuario() {
+    String cedula1 = txtCedula.getText();
+    Usuario usuario = obtenerUsuarioDesdeArchivo(cedula1);
+    if (usuario.getCedula() != null && !usuario.getCedula().isEmpty()) {
+        // Establecer los valores en los elementos de la interfaz de usuario (asumiendo que tienes esos elementos)
+        txtNombre.setText(usuario.getNombre());
+        txtApellido.setText(usuario.getApellido());
+        txtTelefono.setText(usuario.getTelefono());
+        txtEmail.setText(usuario.getEmail());
+        jPasswordField1.setText(usuario.getContraseña());
+    }
+    }
+   private void editarUsuario(Usuario usuario) {
+    String cedula1 = txtCedula.getText();
+    String archivo = cedula1 + ".txt";
+    File archivoAEditar = new File(crearblock + archivo);
+
+    if (archivoAEditar.exists()) {
+        // Verificar que todos los campos no estén vacíos y cumplan con los requisitos
+        if (!camposVacios() && validarCedula() && validarEmail() && validarTelefono()&&soloLetras(txtNombre.getText()) && soloLetras(txtApellido.getText())) {
+            String nuevoNombre = txtNombre.getText();
+            String nuevoApellido = txtApellido.getText();
+            String nuevoTelefono = txtTelefono.getText();
+            String nuevoEmail = txtEmail.getText();
+            String nuevaContraseña = jPasswordField1.getText();
+            int resultado = JOptionPane.showConfirmDialog(rootPane, "¿Desea editar este usuario?", "Editar Usuario", JOptionPane.YES_NO_OPTION);
+
+            if (resultado == JOptionPane.YES_OPTION) {
+                try {
+                    // Guardar los cambios en el archivo
+                    BufferedWriter escritor = new BufferedWriter(new FileWriter(archivoAEditar.getAbsolutePath()));
+                    escritor.write("Cedula: " + cedula1 + "\n");
+                    escritor.write("Nombre: " + nuevoNombre + "\n");
+                    escritor.write("Apellido: " + nuevoApellido + "\n");
+                    escritor.write("Télefono: " + nuevoTelefono + "\n");
+                    escritor.write("Email: " + nuevoEmail + "\n");
+                    escritor.write("Contraseña: " + nuevaContraseña + "\n");
+                    escritor.close();
+                    JOptionPane.showMessageDialog(rootPane, "Usuario editado exitosamente.");
+                    limpiarCampos();
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(null, "Error al editar el archivo. Detalles: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Todos los campos deben estar completos y cumplir con los requisitos.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
+    }
+    }
+    private void eliminarUsuario() {
+    String cedula = txtCedula.getText();
+    String archivo = cedula + ".txt";
+    File archivoAEliminar = new File(crearblock + archivo);
+
+    if (archivoAEliminar.exists()) {
+        int confirmacion = JOptionPane.showConfirmDialog(rootPane, "¿Desea eliminar este usuario?", "Eliminar Usuario", JOptionPane.YES_NO_OPTION);
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            // Pregunta por la contraseña antes de eliminar
+            String contraseñaIngresada = JOptionPane.showInputDialog(rootPane, "Ingrese la contraseña para confirmar la eliminación:");
+
+            // Verificar si la contraseña es correcta 
+            if (validarContraseña(contraseñaIngresada)) {
+                if (archivoAEliminar.delete()) {
+                    JOptionPane.showMessageDialog(rootPane, "Usuario eliminado exitosamente.");
+                    limpiarCampos();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al eliminar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Contraseña incorrecta. Usuario no eliminado.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    } else {
+        JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
+    }
+}
+    public boolean validarContraseña(String contraseña1) {
+        return this.contraseña.equals(contraseña);
+    }
+    private boolean soloLetras(String texto) {
+    // Verifica si el texto solo contiene letras
+    return texto.matches("[a-zA-Z]+");
+}
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -72,7 +202,6 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         telefono = new javax.swing.JLabel();
-        txtContraseña = new javax.swing.JTextField();
         contraseña = new javax.swing.JLabel();
         nombre = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
@@ -83,379 +212,240 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         email = new javax.swing.JLabel();
         txtTelefono = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
+        jPasswordField1 = new javax.swing.JPasswordField();
         botonGuardar = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
         botonBuscar = new javax.swing.JButton();
         botonEditar = new javax.swing.JButton();
         botonEliminar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        jSeparator3 = new javax.swing.JSeparator();
+        jSeparator4 = new javax.swing.JSeparator();
+        jSeparator5 = new javax.swing.JSeparator();
+        jSeparator6 = new javax.swing.JSeparator();
+        jSeparator7 = new javax.swing.JSeparator();
+        jLabel7 = new javax.swing.JLabel();
+        RegresarVentana = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 0, 204), 2), "Datos de Usuario", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 18))); // NOI18N
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        telefono.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        telefono.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
         telefono.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         telefono.setText("Télefono:");
+        telefono.setMinimumSize(new java.awt.Dimension(60, 23));
+        jPanel2.add(telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 85, 30));
 
-        txtContraseña.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        txtContraseña.setAlignmentX(5.0F);
-        txtContraseña.setMinimumSize(new java.awt.Dimension(60, 23));
-        txtContraseña.setPreferredSize(new java.awt.Dimension(80, 30));
-
-        contraseña.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        contraseña.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
         contraseña.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         contraseña.setText("Contraseña:");
+        contraseña.setMinimumSize(new java.awt.Dimension(60, 23));
+        jPanel2.add(contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 350, 90, 30));
 
-        nombre.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        nombre.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
         nombre.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         nombre.setText("Nombre:");
+        nombre.setMinimumSize(new java.awt.Dimension(60, 23));
+        jPanel2.add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 150, 85, 30));
 
-        txtNombre.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtNombre.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         txtNombre.setAlignmentX(5.0F);
         txtNombre.setMinimumSize(new java.awt.Dimension(60, 23));
         txtNombre.setPreferredSize(new java.awt.Dimension(80, 30));
+        jPanel2.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 150, 252, -1));
 
-        apellido.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        apellido.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
         apellido.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         apellido.setText("Apellido: ");
+        apellido.setMinimumSize(new java.awt.Dimension(60, 23));
+        jPanel2.add(apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 200, 85, 30));
 
-        txtApellido.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtApellido.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         txtApellido.setAlignmentX(5.0F);
         txtApellido.setMinimumSize(new java.awt.Dimension(60, 23));
         txtApellido.setPreferredSize(new java.awt.Dimension(80, 30));
+        jPanel2.add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 200, 252, -1));
 
-        cedula.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        cedula.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
         cedula.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         cedula.setText("Cédula:");
+        cedula.setMinimumSize(new java.awt.Dimension(60, 23));
+        jPanel2.add(cedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 100, 85, 30));
 
-        txtCedula.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtCedula.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         txtCedula.setAlignmentX(5.0F);
         txtCedula.setMinimumSize(new java.awt.Dimension(60, 23));
         txtCedula.setPreferredSize(new java.awt.Dimension(80, 30));
+        jPanel2.add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 100, 252, -1));
 
-        email.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        email.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
         email.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         email.setText("Email:");
+        email.setMinimumSize(new java.awt.Dimension(60, 23));
+        jPanel2.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 300, 85, 30));
 
-        txtTelefono.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtTelefono.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         txtTelefono.setAlignmentX(5.0F);
         txtTelefono.setMinimumSize(new java.awt.Dimension(60, 23));
         txtTelefono.setPreferredSize(new java.awt.Dimension(80, 30));
+        jPanel2.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 250, 252, -1));
 
-        txtEmail.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtEmail.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         txtEmail.setAlignmentX(5.0F);
         txtEmail.setMinimumSize(new java.awt.Dimension(60, 23));
         txtEmail.setPreferredSize(new java.awt.Dimension(80, 30));
+        jPanel2.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 300, 252, -1));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(83, 83, 83)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(contraseña, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(nombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(apellido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cedula, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(telefono, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(email, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtCedula, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(48, 48, 48))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cedula, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(apellido, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(telefono, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 16, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(contraseña)
-                    .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21))
-        );
+        jPasswordField1.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
+        jPanel2.add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 350, 252, 33));
 
-        jLabel5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel5.setText("FORMULARIO PARA REGISTRO DE USUARIOS");
-
-        botonGuardar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        botonGuardar.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
         botonGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/salvar.png"))); // NOI18N
-        botonGuardar.setText("GUARDAR");
-        botonGuardar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        botonGuardar.setText("Guardar");
+        botonGuardar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         botonGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonGuardarActionPerformed(evt);
             }
         });
+        jPanel2.add(botonGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 434, 117, 40));
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/trabajo-en-equipo.png"))); // NOI18N
-
-        botonBuscar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        botonBuscar.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
         botonBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/buscar.png"))); // NOI18N
-        botonBuscar.setText("BUSCAR");
-        botonBuscar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        botonBuscar.setText("Buscar");
+        botonBuscar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         botonBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonBuscarActionPerformed(evt);
             }
         });
+        jPanel2.add(botonBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 434, 108, 40));
 
-        botonEditar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        botonEditar.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
         botonEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/editar-codigo.png"))); // NOI18N
-        botonEditar.setText("EDITAR");
-        botonEditar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        botonEditar.setText("Editar");
+        botonEditar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         botonEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonEditarActionPerformed(evt);
             }
         });
+        jPanel2.add(botonEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 434, 102, 40));
 
-        botonEliminar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        botonEliminar.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
         botonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/borrar.png"))); // NOI18N
-        botonEliminar.setText("ELIMINAR");
-        botonEliminar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        botonEliminar.setText("Eliminar");
+        botonEliminar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         botonEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonEliminarActionPerformed(evt);
             }
         });
+        jPanel2.add(botonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 434, 100, 40));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(botonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(botonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(botonEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(26, 26, 26)
-                            .addComponent(botonEliminar))))
-                .addContainerGap(70, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(botonGuardar)
-                            .addComponent(botonBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(botonEliminar)
-                            .addComponent(botonEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(45, 45, 45))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(108, 108, 108))))
-        );
+        jLabel2.setFont(new java.awt.Font("Lucida Sans", 1, 18)); // NOI18N
+        jLabel2.setText("FORMULARIO DE REGISTRO DE USUARIO");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, 400, 40));
+        jPanel2.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 130, 250, -1));
+        jPanel2.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 390, 250, 0));
+        jPanel2.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 180, 250, 10));
+        jPanel2.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 230, 250, 10));
+        jPanel2.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 280, 250, 10));
+        jPanel2.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 330, 250, 10));
+        jPanel2.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 380, 250, 10));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 0, 530, 540));
+
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/trabajo-en-equipo.png"))); // NOI18N
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 280, 290));
+
+        RegresarVentana.setBackground(new java.awt.Color(102, 102, 102));
+        RegresarVentana.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
+        RegresarVentana.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/atras.png"))); // NOI18N
+        RegresarVentana.setText("Regresar");
+        RegresarVentana.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        RegresarVentana.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegresarVentanaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(RegresarVentana, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 440, 120, 40));
+
+        jLabel1.setFont(new java.awt.Font("Lucida Sans", 1, 18)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("GESTIÓN DE USUARIOS");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 270, 50));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 930, 540));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
-    String nombre = txtNombre.getText();
-    String apellido = txtApellido.getText();  
-    String cedula = txtCedula.getText(); 
-    String email = txtEmail.getText();
-    String telefono = txtTelefono.getText();
-    String contraseña = txtContraseña.getText();
-        
-    if(nombre.isEmpty()||nombre.isBlank()||apellido.isEmpty()||apellido.isBlank()||cedula.isEmpty()||cedula.isBlank()||telefono.isEmpty()||telefono.isBlank()
-    ||email.isEmpty()||email.isEmpty()||contraseña.isEmpty()||contraseña.isBlank()){
-    JOptionPane.showMessageDialog(this, "Rellene todos los campos para continuar.");
-    }if (!cedula.matches("\\d+")) {
-    JOptionPane.showMessageDialog(rootPane, "El número de cédula debe contener solo números enteros.", "Error de formato", JOptionPane.ERROR_MESSAGE);
-    return; // Sale del método si el formato es incorrecto
-    }if (!telefono.matches("\\d+")) {
-    JOptionPane.showMessageDialog(rootPane, "El número de teléfono debe contener solo números enteros.", "Error de formato", JOptionPane.ERROR_MESSAGE);
-    return; // Sale del método si el formato es incorrecto
-    }else{
-    crearUsuarios();
-    limpiarCampos();
-    }
+        String nombre1 = txtNombre.getText();
+        String apellido1 = txtApellido.getText();
+        String cedula1 = txtCedula.getText();
+        String email1 = txtEmail.getText();
+        String telefono1 = txtTelefono.getText();
+        String contraseña1 = jPasswordField1.getText();
+        Usuario usuario = new Usuario(); 
+        usuario.cedula = cedula1;
+        usuario.nombre = nombre1;
+        usuario.apellido = apellido1;
+        usuario.email = email1;
+        usuario.telefono = telefono1;
+        usuario.contraseña = contraseña1;
+        crearUsuarios(usuario);
     }//GEN-LAST:event_botonGuardarActionPerformed
-
+    
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
-    mostrarDatosAlmacenados();
+        cargarDatosUsuario();
     }//GEN-LAST:event_botonBuscarActionPerformed
-    private void mostrarDatosAlmacenados() {
-    String archivo = txtCedula.getText() + ".txt";
-    File archivoALeer = new File(crearblock + archivo);
-    if (archivoALeer.exists()) {
-        try {
-            BufferedReader lector = new BufferedReader(new FileReader(archivoALeer.getAbsolutePath()));
-            String linea;
-            String datos = "";
 
-             while ((linea = lector.readLine()) != null) {
-                datos += linea + "\n";
-                if (linea.startsWith("Nombre:")) {
-                    txtNombre.setText(linea.substring(8));
-                } else if (linea.startsWith("Apellido:")) {
-                    txtApellido.setText(linea.substring(9));
-                } else if (linea.startsWith("Télefono:")) {
-                    txtTelefono.setText(linea.substring(10));
-                } else if (linea.startsWith("Email:")) {
-                    txtEmail.setText(linea.substring(7));
-                } else if (linea.startsWith("Contraseña:")) {
-                    txtContraseña.setText(linea.substring(12));
-                }
-            }
-            lector.close();
-           
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error al leer el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } else {
-        JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
-    }
-    }
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
-    editarDatosAlmacenados();
-    limpiarCampos();
-    }//GEN-LAST:event_botonEditarActionPerformed
-    private void editarDatosAlmacenados() {
-    String archivo = txtCedula.getText() + ".txt";
-    File archivoAEditar = new File(crearblock + archivo);
-    if (archivoAEditar.exists()) {
-        try {
-            BufferedReader lector = new BufferedReader(new FileReader(archivoAEditar.getAbsolutePath()));
-            String linea;
-            StringBuilder datos = new StringBuilder();
-
-            while ((linea = lector.readLine()) != null) {
-                if (linea.startsWith("Nombre:") && !txtNombre.getText().equals("")) {
-                    datos.append("Nombre: ").append(txtNombre.getText()).append("\n");
-                } else if (linea.startsWith("Apellido:") && !txtApellido.getText().equals("")) {
-                    datos.append("Apellido: ").append(txtApellido.getText()).append("\n");
-                } else if (linea.startsWith("Télefono:") && !txtTelefono.getText().equals("")) {
-                    datos.append("Télefono: ").append(txtTelefono.getText()).append("\n");
-                } else if (linea.startsWith("Email:") && !txtEmail.getText().equals("")) {
-                    datos.append("Email: ").append(txtEmail.getText()).append("\n");
-                } else if (linea.startsWith("Contraseña:") && !txtContraseña.getText().equals("")) {
-                    datos.append("Contraseña: ").append(txtContraseña.getText()).append("\n");
-                } else {
-                    datos.append(linea).append("\n");
-                }
-            }
-            lector.close();
-
-            BufferedWriter escritor = new BufferedWriter(new FileWriter(archivoAEditar.getAbsolutePath()));
-            escritor.write(datos.toString());
-            escritor.close();
-
-            JOptionPane.showMessageDialog(rootPane, "Los datos se han actualizado correctamente.", "Edición Exitosa", JOptionPane.INFORMATION_MESSAGE);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error al editar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } else {
-        JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
-    }
-}
-    private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
-    eliminarDatosAlmacenados();
-    limpiarCampos();
-    }//GEN-LAST:event_botonEliminarActionPerformed
-   private void eliminarDatosAlmacenados() {
-    String archivo = txtCedula.getText() + ".txt";
-    File archivoAEliminar = new File(crearblock + archivo);
-
-    if (archivoAEliminar.exists()) {
-        try {
-            if (archivoAEliminar.delete()) {
-                JOptionPane.showMessageDialog(rootPane, "Los datos se han eliminado correctamente.", "Eliminación Exitosa", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "No se pudo eliminar el archivo.", "Error al Eliminar", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (SecurityException e) {
-            JOptionPane.showMessageDialog(null, "Error de permisos al intentar eliminar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } else {
-        JOptionPane.showMessageDialog(rootPane, "No se encontraron datos para este usuario.", "Datos no Encontrados", JOptionPane.INFORMATION_MESSAGE);
-    }
-    }
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
+        String nombre1 = txtNombre.getText();
+        String apellido1 = txtApellido.getText();
+        String cedula1 = txtCedula.getText();
+        String email1 = txtEmail.getText();
+        String telefono1 = txtTelefono.getText();
+        String contraseña1 = jPasswordField1.getText();
+        Usuario usuario = new Usuario(); 
+        usuario.cedula = cedula1;
+        usuario.nombre = nombre1;
+        usuario.apellido = apellido1;
+        usuario.email = email1;
+        usuario.telefono = telefono1;
+        usuario.contraseña = contraseña1;
+        editarUsuario(usuario);
         
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VentanaRegistroUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VentanaRegistroUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VentanaRegistroUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VentanaRegistroUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+    }//GEN-LAST:event_botonEditarActionPerformed
+
+    private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
+        String contraseña1 = jPasswordField1.getText();
+        Usuario usuario = new Usuario(); 
+        usuario.contraseña = contraseña1;
+        eliminarUsuario();
+        limpiarCampos();
+    }//GEN-LAST:event_botonEliminarActionPerformed
+
+    private void RegresarVentanaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarVentanaActionPerformed
+        VentanaLogin abc = new VentanaLogin();
+        abc.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_RegresarVentanaActionPerformed
+
+
+    public static void main(String args[]) {
         //</editor-fold>
         //</editor-fold>
 
@@ -475,6 +465,7 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton RegresarVentana;
     private javax.swing.JLabel apellido;
     private javax.swing.JButton botonBuscar;
     private javax.swing.JButton botonEditar;
@@ -483,21 +474,45 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
     private javax.swing.JLabel cedula;
     private javax.swing.JLabel contraseña;
     private javax.swing.JLabel email;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JSeparator jSeparator7;
     private javax.swing.JLabel nombre;
     private javax.swing.JLabel telefono;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtCedula;
-    private javax.swing.JTextField txtContraseña;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
+private boolean camposVacios() {
+    return txtCedula.getText().isEmpty() || txtNombre.getText().isEmpty() ||
+           txtApellido.getText().isEmpty() || txtTelefono.getText().isEmpty() ||
+           txtEmail.getText().isEmpty() || jPasswordField1.getText().isEmpty();
+}
 
-    private void crearElectrodomesticos(String text, String text0) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+private boolean validarCedula() {
+    String cedula = txtCedula.getText();
+    return cedula.matches("\\d{8,10}");
+}
+
+private boolean validarEmail() {
+    String email = txtEmail.getText();
+    return email.matches(".*@.*\\.com");
+}
+
+private boolean validarTelefono() {
+    String telefono = txtTelefono.getText();
+    return telefono.matches("\\d+");
+}
 }
