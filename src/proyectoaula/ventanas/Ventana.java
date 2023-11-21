@@ -754,9 +754,12 @@ public class Ventana extends javax.swing.JFrame {
                             BufferedReader lectoreelctrodomestico = new BufferedReader(new FileReader(electrodomesticoBD + nserie));
                             String linea;
                             String electro = "";
+                            String nroserie = "";
                             while ((linea = lectoreelctrodomestico.readLine()) != null) {
                                 if (linea.startsWith("Electrodomestico:")) {
                                     electro = linea.substring(18);
+                                } else if (linea.startsWith("nro.serie:")) {
+                                    nroserie = linea.substring(11);
                                 }
                             }
                             lectoreelctrodomestico.close();
@@ -773,7 +776,7 @@ public class Ventana extends javax.swing.JFrame {
                                 }
                             }
 
-                            modelo.addRow(new Object[]{electro, numeroSerie, gasto, fecha});
+                            modelo.addRow(new Object[]{electro, nroserie, gasto, fecha});
                             lectorGastos.close();
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -1028,8 +1031,8 @@ public class Ventana extends javax.swing.JFrame {
         String marca = txtMarca.getText();
 
         if (nombreElectrodomestico.isEmpty() || nombreElectrodomestico.isBlank()
-            || nroSerie.isEmpty() || nroSerie.isBlank()
-            || marca.isEmpty() || marca.isBlank()) {
+                || nroSerie.isEmpty() || nroSerie.isBlank()
+                || marca.isEmpty() || marca.isBlank()) {
             JOptionPane.showMessageDialog(null, "Rellene todos los campos antes de continuar", "Error", JOptionPane.INFORMATION_MESSAGE);
         } else {
 
