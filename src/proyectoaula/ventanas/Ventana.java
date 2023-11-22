@@ -1216,7 +1216,7 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JButton botonEliminar;
     private javax.swing.JButton botonGuardar;
     private javax.swing.JButton calcular;
-    private rojerusan.RSTableMetro gastosTable;
+    private org.netbeans.modules.form.InvalidComponent gastosTable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1249,7 +1249,7 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private rojerusan.RSTableMetro tablaelectrodomestico;
+    private org.netbeans.modules.form.InvalidComponent tablaelectrodomestico;
     private javax.swing.JTextField txtCedula1;
     private javax.swing.JTextField txtCedula2;
     private javax.swing.JTextField txtElectrodomestico;
