@@ -137,7 +137,6 @@ public class VentanaLogin extends javax.swing.JFrame {
     private void botonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEntrarActionPerformed
         String cedula1 = txtCedula.getText();
         String contraseña1 = new String(txtContraseña.getPassword());
-        //        verificarInicioSesion(cedula1, contraseña1);
         verificarInicioSesion(cedula1, contraseña1);
     }//GEN-LAST:event_botonEntrarActionPerformed
    private Usuario verificarInicioSesion(String cedula, String contraseña) {
@@ -153,7 +152,6 @@ public class VentanaLogin extends javax.swing.JFrame {
                 // Cargar datos del archivo en el objeto Usuario
                 cargarDatosUsuario(linea, usuario);
             }
-
             if (usuario != null && usuario.validarContraseña(contraseña)) {
                 mostrarMensajeInicioSesionExitoso();
                 abrirNuevaVentana();
@@ -172,7 +170,7 @@ public class VentanaLogin extends javax.swing.JFrame {
     return null; // Usuario no encontrado o contraseña incorrecta
 }
 
-private void cargarDatosUsuario(String linea, Usuario usuario) {
+   private void cargarDatosUsuario(String linea, Usuario usuario) {
     if (linea.startsWith("Cedula:")) {
         usuario.setCedula(linea.substring(8).trim());
     } else if (linea.startsWith("Nombre:")) {
@@ -186,11 +184,11 @@ private void cargarDatosUsuario(String linea, Usuario usuario) {
     } else if (linea.startsWith("Contraseña:")) {
         usuario.setContraseña(linea.substring(12).trim());
     }
-}
+    }
 
-private void mostrarMensajeInicioSesionExitoso() {
+    private void mostrarMensajeInicioSesionExitoso() {
     JOptionPane.showMessageDialog(rootPane, "Inicio de sesión exitoso.");
-}
+    }
 
 private void abrirNuevaVentana() {
     Ventana nuevaVentana = new Ventana();

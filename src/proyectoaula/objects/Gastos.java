@@ -10,6 +10,7 @@ package proyectoaula.objects;
 public class Gastos {
    
     public double gasto;
+    public double horas;
     public String fecha;
 
     public double getGasto() {
@@ -26,6 +27,14 @@ public class Gastos {
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+    
+    public double gethoras() {
+        return horas;
+    }
+
+    public void sethoras(double horas) {
+        this.horas = horas;
     }
     
 }
