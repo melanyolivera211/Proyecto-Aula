@@ -26,7 +26,7 @@ public class Ventana extends javax.swing.JFrame {
         initComponents();
     }
 
-   private void crearElectrodomestico(Electrodomestico electrodomestico) {
+    private void crearElectrodomestico(Electrodomestico electrodomestico) {
         String cedula = txtCedula1.getText();
         String archivoUsuario = cedula + ".txt";
         File rutaArchivo = new File(crearblock + archivoUsuario);
@@ -197,7 +197,7 @@ public class Ventana extends javax.swing.JFrame {
                 try {
                     if (BAelectrodomestico.delete()) {
                         JOptionPane.showMessageDialog(rootPane, "¡El electrodomestico ha sido eliminado con exito!");
-                       
+
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "El electrodomestico no se ha podido eliminar");
                     }
@@ -261,7 +261,7 @@ public class Ventana extends javax.swing.JFrame {
         Editar = new javax.swing.JButton();
         Eliminar = new javax.swing.JButton();
         jSeparator6 = new javax.swing.JSeparator();
-        txtFecha = new javax.swing.JTextField();
+        txtuso = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -273,6 +273,9 @@ public class Ventana extends javax.swing.JFrame {
         gastosTable = new rojerusan.RSTableMetro();
         jLabel14 = new javax.swing.JLabel();
         calcular = new javax.swing.JButton();
+        jSeparator9 = new javax.swing.JSeparator();
+        txtFecha = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -580,13 +583,13 @@ public class Ventana extends javax.swing.JFrame {
         jSeparator6.setForeground(new java.awt.Color(0, 0, 0));
         jPanel9.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 190, 150, 20));
 
-        txtFecha.setBorder(null);
-        txtFecha.addActionListener(new java.awt.event.ActionListener() {
+        txtuso.setBorder(null);
+        txtuso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFechaActionPerformed(evt);
+                txtusoActionPerformed(evt);
             }
         });
-        jPanel9.add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 160, 150, 30));
+        jPanel9.add(txtuso, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 160, 150, 30));
 
         jLabel10.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -600,8 +603,8 @@ public class Ventana extends javax.swing.JFrame {
 
         jLabel12.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel12.setText("Fecha/Hora:");
-        jPanel9.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 140, 90, -1));
+        jLabel12.setText("Horas de Uso:");
+        jPanel9.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 140, 110, -1));
 
         txtCedula2.setBorder(null);
         jPanel9.add(txtCedula2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 80, 150, 30));
@@ -619,13 +622,13 @@ public class Ventana extends javax.swing.JFrame {
 
         gastosTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, "", "", null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, "", "", null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Electrodoméstico", "Nro.serie", "Gasto", "Fecha"
+                "Electrodoméstico", "Nro.serie", "Gasto", "Fecha", "horas"
             }
         ));
         gastosTable.setAltoHead(25);
@@ -646,7 +649,7 @@ public class Ventana extends javax.swing.JFrame {
         jPanel9.add(jScrollPane9, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 50, 570, 390));
 
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/luz-de-ahorro-de-energia.png"))); // NOI18N
-        jPanel9.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 250, 260, 260));
+        jPanel9.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 290, 260, 260));
 
         calcular.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         calcular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/calcular.png"))); // NOI18N
@@ -658,6 +661,23 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
         jPanel9.add(calcular, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 460, 120, 40));
+
+        jSeparator9.setBackground(new java.awt.Color(0, 0, 0));
+        jSeparator9.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel9.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 260, 150, 20));
+
+        txtFecha.setBorder(null);
+        txtFecha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFechaActionPerformed(evt);
+            }
+        });
+        jPanel9.add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, 150, 30));
+
+        jLabel13.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel13.setText("Fecha/Hora:");
+        jPanel9.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 210, 90, -1));
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -765,7 +785,8 @@ public class Ventana extends javax.swing.JFrame {
     private void tablaelectrodomesticoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaelectrodomesticoMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_tablaelectrodomesticoMouseClicked
-   //Aquí empiezan los métodos de gastos
+    //Aquí empiezan los métodos de gastos
+
     private void guardarGastos(Gastos gastos) {
         String cedula = txtCedula2.getText();
         String archivoUsuario = cedula + ".txt";
@@ -787,6 +808,7 @@ public class Ventana extends javax.swing.JFrame {
                         Writer escritorDeArchivo = new FileWriter(gastoGuardar);
                         String registrogasto = "gasto: " + gastos.gasto + "\n";
                         registrogasto += "fecha: " + gastos.fecha + "\n";
+                        registrogasto += "horas: " + gastos.horas + "\n";
                         escritorDeArchivo.write(registrogasto);
                         escritorDeArchivo.flush();
                         escritorDeArchivo.close();
@@ -800,6 +822,7 @@ public class Ventana extends javax.swing.JFrame {
                         Writer escritorDeArchivo = new FileWriter(gastoGuardar);
                         String registrogasto = "gasto: " + gastos.gasto + "\n";
                         registrogasto += "fecha: " + gastos.fecha + "\n";
+                        registrogasto += "horas: " + gastos.horas + "\n";
                         escritorDeArchivo.write(registrogasto);
                         escritorDeArchivo.flush();
                         escritorDeArchivo.close();
@@ -832,6 +855,7 @@ public class Ventana extends javax.swing.JFrame {
             modelo.addColumn("Nro. de Serie");
             modelo.addColumn("Gasto");
             modelo.addColumn("Fecha");
+            modelo.addColumn("Horas");
 
             for (File archivo : archivos) {
                 String numeroSerie = archivo.getName();
@@ -846,9 +870,12 @@ public class Ventana extends javax.swing.JFrame {
                             BufferedReader lectoreelctrodomestico = new BufferedReader(new FileReader(electrodomesticoBD + nserie));
                             String linea;
                             String electro = "";
+                            String nroserie = "";
                             while ((linea = lectoreelctrodomestico.readLine()) != null) {
                                 if (linea.startsWith("Electrodomestico:")) {
                                     electro = linea.substring(18);
+                                } else if (linea.startsWith("nro.serie:")) {
+                                    nroserie = linea.substring(11);
                                 }
                             }
                             lectoreelctrodomestico.close();
@@ -856,16 +883,19 @@ public class Ventana extends javax.swing.JFrame {
                             BufferedReader lectorGastos = new BufferedReader(new FileReader(archivoGasto.getAbsolutePath()));
                             String gasto = "";
                             String fecha = "";
+                            String horas = "";
 
                             while ((linea = lectorGastos.readLine()) != null) {
                                 if (linea.startsWith("gasto:")) {
                                     gasto = linea.substring(7);
                                 } else if (linea.startsWith("fecha:")) {
                                     fecha = linea.substring(7);
+                                } else if (linea.startsWith("horas:")) {
+                                    horas = linea.substring(7);
                                 }
                             }
 
-                            modelo.addRow(new Object[]{electro, numeroSerie, gasto, fecha});
+                            modelo.addRow(new Object[]{electro, nroserie, gasto, fecha, horas});
                             lectorGastos.close();
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -904,12 +934,16 @@ public class Ventana extends javax.swing.JFrame {
                         try {
                             BufferedReader lectorGastos = new BufferedReader(new FileReader(archivoGasto.getAbsolutePath()));
                             String linea;
-                            String gasto = "";
+                            double gasto = 0;
+                            double horas = 0;
+                            
 
                             while ((linea = lectorGastos.readLine()) != null) {
-                                if (linea.startsWith("gasto:")) {
-                                    gasto = linea.substring(7);
-                                    sumaGastos += Double.parseDouble(gasto);
+                                if (linea.startsWith("gasto:")||linea.startsWith("horas:")) {
+                                    gasto = Double.parseDouble(linea.substring(7));
+                                    horas = Double.parseDouble(linea.substring(7));
+                                    double calcular = gasto * horas * 30;
+                                    sumaGastos += calcular;
                                     cantidadGastos++;
                                 }
                             }
@@ -921,8 +955,11 @@ public class Ventana extends javax.swing.JFrame {
                     }
 
                     if (cantidadGastos > 0) {
-                        double promedio = sumaGastos / cantidadGastos;
-                        JOptionPane.showMessageDialog(rootPane, "El promedio de gastos es: " + promedio);
+                        double promedio = sumaGastos/cantidadGastos;
+                        cantidadGastos =0;
+                        JOptionPane.showMessageDialog(rootPane, "El promedio de gastos es: " + promedio+" kwh ");
+                        double costo = sumaGastos * 500;
+                        JOptionPane.showMessageDialog(rootPane, "El costo aproximadado en pesos del electrodomestico: " + txtNroSerie2.getText()+" es "+costo);
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "No hay gastos registrados para calcular el promedio.");
                     }
@@ -953,14 +990,18 @@ public class Ventana extends javax.swing.JFrame {
                 modelo.addColumn("Nro. de Serie");
                 modelo.addColumn("Gasto");
                 modelo.addColumn("Fecha");
+                modelo.addColumn("Horas");
                 for (File archivoGasto : archivosGastos) {
                     try {
-                        BufferedReader lectoreelctrodomestico = new BufferedReader(new FileReader(electrodomesticoBD + numeroSerie+".txt"));
+                        BufferedReader lectoreelctrodomestico = new BufferedReader(new FileReader(electrodomesticoBD + numeroSerie + ".txt"));
                         String linea;
                         String electro = "";
+                        String nroserie = "";
                         while ((linea = lectoreelctrodomestico.readLine()) != null) {
                             if (linea.startsWith("Electrodomestico:")) {
                                 electro = linea.substring(18);
+                            } else if (linea.startsWith("nro.serie:")) {
+                                nroserie = linea.substring(11);
                             }
                         }
                         lectoreelctrodomestico.close();
@@ -968,16 +1009,19 @@ public class Ventana extends javax.swing.JFrame {
                         BufferedReader lectorGastos = new BufferedReader(new FileReader(archivoGasto.getAbsolutePath()));
                         String gasto = "";
                         String fecha = "";
+                        String horas = "";
 
                         while ((linea = lectorGastos.readLine()) != null) {
                             if (linea.startsWith("gasto:")) {
                                 gasto = linea.substring(7);
                             } else if (linea.startsWith("fecha:")) {
                                 fecha = linea.substring(7);
+                            } else if (linea.startsWith("horas:")) {
+                                horas = linea.substring(7);
                             }
                         }
 
-                        modelo.addRow(new Object[]{electro,numeroSerie, gasto, fecha});
+                        modelo.addRow(new Object[]{electro, nroserie, gasto, fecha, horas});
                         lectorGastos.close();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -1016,6 +1060,8 @@ public class Ventana extends javax.swing.JFrame {
                                 datos.append("gasto: ").append(gastos.gasto).append("\n");
                             } else if (linea.startsWith("fecha:") && !txtFecha.getText().equals("")) {
                                 datos.append("fecha: ").append(gastos.fecha).append("\n");
+                            } else if (linea.startsWith("fecha:") && !txtuso.getText().equals("")) {
+                                datos.append("horas: ").append(gastos.horas).append("\n");
                             } else {
                                 datos.append(linea).append("\n");
                             }
@@ -1078,16 +1124,18 @@ public class Ventana extends javax.swing.JFrame {
     }
 
     private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
-    if (!txtCedula2.getText().isBlank() || !txtCedula2.getText().isEmpty()) {
-        if (!txtNroSerie2.getText().isBlank() || !txtNroSerie2.getText().isEmpty()) {
-                if (!txtFecha.getText().isBlank() || !txtFecha.getText().isEmpty() || !txtGastos.getText().isBlank() || !txtGastos.getText().isEmpty()) {
-                    if (txtGastos.getText().matches("\\d+(\\.\\d+)?")) {
+        if (!txtCedula2.getText().isBlank() || !txtCedula2.getText().isEmpty()) {
+            if (!txtNroSerie2.getText().isBlank() || !txtNroSerie2.getText().isEmpty()) {
+                if (!txtFecha.getText().isBlank() || !txtFecha.getText().isEmpty() || !txtGastos.getText().isBlank() || !txtGastos.getText().isEmpty() || !txtuso.getText().isBlank() || !txtuso.getText().isEmpty()) {
+                    if (txtGastos.getText().matches("\\d+(\\.\\d+)?") && txtuso.getText().matches("\\d+(\\.\\d+)?")) {
                         String fecha = txtFecha.getText();
                         double consumo = Double.parseDouble(txtGastos.getText());
+                        double uso = Double.parseDouble(txtuso.getText());
                         gastos.fecha = fecha;
                         gastos.gasto = consumo;
+                        gastos.horas = uso;
                         guardarGastos(gastos);
-                        txtFecha.setText("");
+                        txtuso.setText("");
                         txtGastos.setText("");
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "El campo de texto para gastos tiene que ser rellenado con números");
@@ -1122,20 +1170,22 @@ public class Ventana extends javax.swing.JFrame {
     private void EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarActionPerformed
         if (!txtCedula2.getText().isBlank() || !txtCedula2.getText().isEmpty()) {
             if (!txtNroSerie2.getText().isBlank() || !txtNroSerie2.getText().isEmpty()) {
-                if (!txtFecha.getText().isBlank() || !txtFecha.getText().isEmpty() || !txtGastos.getText().isBlank() || !txtGastos.getText().isEmpty()) {
-                    if (txtGastos.getText().matches("\\d+(\\.\\d+)?")) {
+                if (!txtFecha.getText().isBlank() || !txtFecha.getText().isEmpty() || !txtGastos.getText().isBlank() || !txtGastos.getText().isEmpty() || !txtuso.getText().isBlank() || !txtuso.getText().isEmpty()) {
+                    if (txtGastos.getText().matches("\\d+(\\.\\d+)?") && txtuso.getText().matches("\\d+(\\.\\d+)?")) {
                         String fecha = txtFecha.getText();
                         double consumo = Double.parseDouble(txtGastos.getText());
+                        double uso = Double.parseDouble(txtuso.getText());
                         gastos.fecha = fecha;
                         gastos.gasto = consumo;
+                        gastos.horas = uso;
                         editarGastos(gastos);
-                        txtFecha.setText("");
+                        txtuso.setText("");
                         txtGastos.setText("");
                     } else {
-                        JOptionPane.showMessageDialog(rootPane, "El campo de texto para gastos solo acepta números");
+                        JOptionPane.showMessageDialog(rootPane, "El campo de texto para gastos tiene que ser rellenado con números");
                     }
                 } else {
-                    JOptionPane.showMessageDialog(rootPane, "Ingrese la fecha (AA-MM-DD) y/o el gasto del electrodomestico");
+                    JOptionPane.showMessageDialog(rootPane, "Ingrese la fecha(AA-MM-DD) y/o el gasto del electrodomestico");
                 }
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Ingrese el número de serie del electrodoméstico.");
@@ -1172,41 +1222,53 @@ public class Ventana extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_gastosTableMouseClicked
 
-    private void txtFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaActionPerformed
+    private void txtusoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtusoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtFechaActionPerformed
+    }//GEN-LAST:event_txtusoActionPerformed
 
     private void txtNroSerie1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNroSerie1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNroSerie1ActionPerformed
 
     private void calcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcularActionPerformed
-        calcularPromedioGastos();
+        if (!txtCedula2.getText().isBlank() || !txtCedula2.getText().isEmpty()) {
+            if (!txtNroSerie2.getText().isBlank() || !txtNroSerie2.getText().isEmpty()) {
+                calcularPromedioGastos();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "ingrese el numero de serie del electrodomestico");
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "ingrese la cedula del usuarios");
+        }
     }//GEN-LAST:event_calcularActionPerformed
 
     private void jPanel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseClicked
-     Principal.setSelectedIndex(0);
+        Principal.setSelectedIndex(0);
     }//GEN-LAST:event_jPanel8MouseClicked
 
     private void jPanel8MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseMoved
-    jPanel8.setBackground(Color.white);
+        jPanel8.setBackground(Color.white);
     }//GEN-LAST:event_jPanel8MouseMoved
 
     private void jPanel8MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel8MouseExited
-    jPanel8.setBackground(new Color(66,66,66));
+        jPanel8.setBackground(new Color(66, 66, 66));
     }//GEN-LAST:event_jPanel8MouseExited
 
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
-    Principal.setSelectedIndex(1);
+        Principal.setSelectedIndex(1);
     }//GEN-LAST:event_jPanel7MouseClicked
 
     private void jPanel7MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseMoved
-    jPanel7.setBackground(Color.white);
+        jPanel7.setBackground(Color.white);
     }//GEN-LAST:event_jPanel7MouseMoved
 
     private void jPanel7MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseExited
-    jPanel7.setBackground(new Color(66,66,66));
+        jPanel7.setBackground(new Color(66, 66, 66));
     }//GEN-LAST:event_jPanel7MouseExited
+
+    private void txtFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFechaActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -1260,6 +1322,7 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1287,6 +1350,7 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
+    private javax.swing.JSeparator jSeparator9;
     private rojerusan.RSTableMetro tablaelectrodomestico;
     private javax.swing.JTextField txtCedula1;
     private javax.swing.JTextField txtCedula2;
@@ -1296,5 +1360,6 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JTextField txtMarca;
     private javax.swing.JTextField txtNroSerie1;
     private javax.swing.JTextField txtNroSerie2;
+    private javax.swing.JTextField txtuso;
     // End of variables declaration//GEN-END:variables
 }
