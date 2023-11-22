@@ -259,6 +259,7 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
 
         txtNombre.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         txtNombre.setAlignmentX(5.0F);
+        txtNombre.setBorder(null);
         txtNombre.setMinimumSize(new java.awt.Dimension(60, 23));
         txtNombre.setPreferredSize(new java.awt.Dimension(80, 30));
         jPanel2.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 150, 252, -1));
@@ -271,6 +272,7 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
 
         txtApellido.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         txtApellido.setAlignmentX(5.0F);
+        txtApellido.setBorder(null);
         txtApellido.setMinimumSize(new java.awt.Dimension(60, 23));
         txtApellido.setPreferredSize(new java.awt.Dimension(80, 30));
         jPanel2.add(txtApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 200, 252, -1));
@@ -283,6 +285,7 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
 
         txtCedula.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         txtCedula.setAlignmentX(5.0F);
+        txtCedula.setBorder(null);
         txtCedula.setMinimumSize(new java.awt.Dimension(60, 23));
         txtCedula.setPreferredSize(new java.awt.Dimension(80, 30));
         jPanel2.add(txtCedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 100, 252, -1));
@@ -295,18 +298,21 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
 
         txtTelefono.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         txtTelefono.setAlignmentX(5.0F);
+        txtTelefono.setBorder(null);
         txtTelefono.setMinimumSize(new java.awt.Dimension(60, 23));
         txtTelefono.setPreferredSize(new java.awt.Dimension(80, 30));
         jPanel2.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 250, 252, -1));
 
         txtEmail.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
         txtEmail.setAlignmentX(5.0F);
+        txtEmail.setBorder(null);
         txtEmail.setMinimumSize(new java.awt.Dimension(60, 23));
         txtEmail.setPreferredSize(new java.awt.Dimension(80, 30));
         jPanel2.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 300, 252, -1));
 
         jPasswordField1.setFont(new java.awt.Font("Lucida Sans", 0, 14)); // NOI18N
-        jPanel2.add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 350, 252, 33));
+        jPasswordField1.setBorder(null);
+        jPanel2.add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 340, 252, 33));
 
         botonGuardar.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
         botonGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoaula/imagenes/salvar.png"))); // NOI18N
@@ -361,7 +367,7 @@ public class VentanaRegistroUsuario extends javax.swing.JDialog {
         jPanel2.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 230, 250, 10));
         jPanel2.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 280, 250, 10));
         jPanel2.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 330, 250, 10));
-        jPanel2.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 380, 250, 10));
+        jPanel2.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 380, 250, 30));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 0, 530, 540));
 
